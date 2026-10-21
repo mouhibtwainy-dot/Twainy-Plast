@@ -143,21 +143,21 @@ export const brand = {
   doSay: ['Exact prices and sizes', 'Real photos and people', '"Ask us before you order"', 'Lebanese Arabic + English product names'],
   dontSay: ['"Best in Lebanon" without proof', 'Fake urgency ("only today!")', 'Invented discounts or reviews', '"Made in Lebanon" unless verified'],
   colors: [
-    { name: 'Deep Navy', hex: '#0B2545', use: 'Headlines, trust' },
-    { name: 'Water Blue', hex: '#1B8EC9', use: 'Brand accent, links' },
-    { name: 'Aqua Mist', hex: '#E6F4FB', use: 'Backgrounds' },
+    { name: 'Twainy Green', hex: '#1B4D2B', use: 'Headlines, trust (from the logo)' },
+    { name: 'Leaf Green', hex: '#2E7D3A', use: 'Brand accent, links' },
+    { name: 'Mist', hex: '#E9F4EC', use: 'Backgrounds' },
     { name: 'Chrome', hex: '#8D99AE', use: 'Lines, secondary text' },
-    { name: 'Copper', hex: '#D9692B', use: 'CTAs and offers only' },
+    { name: 'Twainy Red', hex: '#D63A14', use: 'CTAs and offers only (from the logo)' },
   ],
   type: [
     { role: 'Headlines (AR + EN)', family: 'Cairo Bold' },
     { role: 'Body (AR + EN)', family: 'Cairo / Inter Regular' },
   ],
   assets: [
-    'Product on white or aqua with a soft blue shadow',
+    'Product on white or mist-green with a soft shadow',
     'Water-drop line icon as a series marker',
     'Copper pill for prices and CTAs',
-    'Existing Twainy Plast logo, unchanged (confirm files with the owner)',
+    'Existing green-and-red Twainy Plast logo, unchanged; palette taken from it',
   ],
 }
 

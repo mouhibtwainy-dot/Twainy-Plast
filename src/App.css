@@ -75,7 +75,7 @@ main {
 
 /* ---------- cover ---------- */
 .slide-cover {
-  background: radial-gradient(circle at 80% 20%, #1b8ec955, transparent 50%), var(--navy);
+  background: radial-gradient(circle at 80% 20%, #2e7d3a55, transparent 50%), var(--navy);
   color: #fff;
   justify-content: center;
 }
@@ -92,13 +92,13 @@ main {
 
 .cover-sub {
   font-size: 1.3rem;
-  color: #d7e9f5;
+  color: #d9eedd;
 }
 
 .cover-ar {
   font-family: Cairo, sans-serif;
   font-size: 2rem;
-  color: #7cc7ee;
+  color: #9fd6a9;
   text-align: left;
 }
 
@@ -203,7 +203,7 @@ main {
 
 .stat span {
   font-size: 0.85rem;
-  color: #c9dcec;
+  color: #cfe5d4;
 }
 
 .span2 {
@@ -402,11 +402,11 @@ main {
 .persona-card blockquote {
   margin: 16px 0;
   font-style: italic;
-  color: #d7e9f5;
+  color: #d9eedd;
 }
 
 .persona-card .muted {
-  color: #b9cde0;
+  color: #bdd8c3;
 }
 
 .persona-avatar {
@@ -516,7 +516,7 @@ dd {
 }
 
 .flow-step:nth-child(even) {
-  background: #cfe8f6;
+  background: #d3eadb;
 }
 
 .flow-step b {
@@ -718,11 +718,11 @@ dd {
 
 .lib-btn small {
   font-weight: 400;
-  color: #9fc3dc;
+  color: #a9cdb1;
   font-size: 0.62rem;
 }
 
-.lib-btn:first-of-type {
+.lib-btn:nth-of-type(2) {
   background: var(--copper);
 }
 
@@ -807,25 +807,25 @@ dd {
 }
 
 .pillar span[dir='rtl'] {
-  color: #7cc7ee;
+  color: #9fd6a9;
   font-family: Cairo, sans-serif;
   text-align: left;
 }
 
 .pillar p {
   font-size: 0.85rem;
-  color: #d7e9f5;
+  color: #d9eedd;
 }
 
 .pillar small {
-  color: #9fc3dc;
+  color: #a9cdb1;
 }
 
 .pillar-share {
   font-family: Cairo, sans-serif;
   font-size: 2rem;
   font-weight: 800;
-  color: #7cc7ee;
+  color: #9fd6a9;
   line-height: 1;
 }
 
@@ -947,7 +947,7 @@ dd {
 }
 
 .post.aqua {
-  background: linear-gradient(160deg, var(--mist), #bfe3f5);
+  background: linear-gradient(160deg, var(--mist), #c6e6cd);
 }
 
 .post .offer-grid h4 {
@@ -1047,7 +1047,7 @@ dd {
 /* 1 cm = 1.3 px so the three mirrors read true to scale */
 .mirror-scale .m {
   border: 3px solid var(--blue);
-  box-shadow: 0 0 14px #1b8ec988, inset 0 0 10px #1b8ec955;
+  box-shadow: 0 0 14px #2e7d3a88, inset 0 0 10px #2e7d3a55;
   background: #fff;
   display: grid;
   place-items: center;
@@ -1145,7 +1145,7 @@ dd {
   text-align: center;
   font-size: 0.8rem;
   margin: 8px 0;
-  color: #c9dcec;
+  color: #cfe5d4;
 }
 
 .post blockquote {
@@ -1326,7 +1326,7 @@ dd {
 .code {
   display: block;
   background: var(--navy);
-  color: #9fd8f5;
+  color: #b6e3bd;
   padding: 10px;
   border-radius: 6px;
   font-size: 0.72rem;

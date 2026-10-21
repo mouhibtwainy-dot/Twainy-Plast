@@ -349,7 +349,7 @@ const slides: SlideDef[] = [
           <ul>
             <li>Name field includes both the AR and EN brand names, which makes the profile searchable in both languages</li>
             <li>Category: Home improvement. Contact buttons: Message + WhatsApp</li>
-            <li>Highlight covers use the water-drop icon on aqua, one per buyer question</li>
+            <li>Highlight covers use the water-drop icon on mist green, one per buyer question</li>
             <li>Location tag on every store post and Reel</li>
             <li>Instagram Shopping connected to the Shopify catalogue for product tags</li>
             <li>Facebook page mirrors the bio, with the same WhatsApp button and shop tab</li>

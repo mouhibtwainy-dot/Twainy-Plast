@@ -13,6 +13,7 @@ MKT 843 *Strategic Social Media Management in the Digital Age* (LAU AKSOB MBA, D
 | `docs/03-launch-baseline.md` | Shopify launch baseline (real data, Oct 7–21, 2026) | Steps 1 & 5 |
 | `docs/04-research-toolkit.md` | Competitor audit sheet, interview script, mobile test, survey, social listening | Steps 2 & 5 |
 | `docs/05-store-fix-list.md` | Evidence-based store fixes to make before spending on ads | Steps 3 & 5 |
+| `docs/Twainy-Plast-Project-Plan.pptx` | **PowerPoint project plan (24 slides)**: problem, objectives, Shopify statistics (native charts), website audit screenshots, 3 competitors, brainstorm, impact/effort matrix, mind map, strategy, creatives, KPIs, Gantt roadmap | All |
 | `src/` | **Strategic Digital Transformation Deck**: an interactive web deck covering Steps 1–5 | All |
 
 ### Deck contents (29 slides)
