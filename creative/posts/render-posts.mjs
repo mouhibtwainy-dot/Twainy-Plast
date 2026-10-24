@@ -10,6 +10,8 @@ const out = join(here, 'png')
 mkdirSync(out, { recursive: true })
 
 const logo = 'data:image/png;base64,' + readFileSync(join(here, 'assets/logo.png')).toString('base64')
+// Real twainyplast.com mobile homepage, captured Oct 24, 2026
+const site = 'data:image/jpeg;base64,' + readFileSync(join(here, 'assets/site-mobile.jpg')).toString('base64')
 const cdn = (file) => `https://cdn.shopify.com/s/files/1/0649/4679/8676/files/${file}&width=900`
 
 // Products and prices from the Shopify catalogue (checked Oct 24, 2026)
@@ -68,6 +70,16 @@ p.body{font-size:36px;line-height:1.4;color:var(--ink)}
 .drop{width:120px;height:120px}
 `
 
+const cssLaunch = `
+.phone{background:#111;border-radius:64px;padding:18px;box-shadow:0 30px 70px #0000004d;position:relative}
+.phone .screen{border-radius:48px;overflow:hidden;background:#fff;padding-top:46px}
+.phone .screen img{display:block;width:100%}
+.phone:before{content:'';position:absolute;top:34px;left:50%;transform:translateX(-50%);width:110px;height:26px;background:#111;border-radius:20px;z-index:2}
+.perk{display:flex;align-items:center;gap:20px;background:#fff;border-radius:26px;padding:18px 24px;box-shadow:0 8px 24px #1b4d2b1a}
+.perk span{font-size:44px}
+.perk b{display:block;font-size:30px;color:var(--g);line-height:1.15}
+.perk small{display:block;font-size:22px;color:var(--grey);font-weight:600}
+`
 const waIcon = `<svg viewBox="0 0 24 24" fill="#25D366"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>`
 
 const top = (page) => `<div class="top"><div class="logo"><img src="${logo}" alt=""><span>Twainy Plast<br><small style="font-size:20px;font-weight:600;color:#5b6770">تويني بلاست</small></span></div>${page ? `<span class="page">${page}</span>` : ''}</div>`
@@ -77,6 +89,48 @@ const illustrative = (pos = 'left:72px;bottom:112px') => `<span class="tag" styl
 // Each slide: [fileName, width, height, html]
 const S = []
 const add = (name, w, h, html) => S.push({ name, w, h, html })
+
+// ---------- 0. Launch announcement: website is live (single + story) ----------
+const perks = [
+  ['🛁', 'كل حاجات الحمّام', 'All your bathroom needs'],
+  ['🚚', 'توصيل لكل لبنان', 'Delivery all over Lebanon'],
+  ['🎁', 'مجاني فوق <bdi>$30</bdi>', 'Free delivery over $30'],
+  ['💵', 'الدفع عند الاستلام', 'Cash on delivery'],
+]
+const perkHtml = (p) => `<div class="perk"><span>${p[0]}</span><div><b class="ar" style="text-align:left">${p[1]}</b><small>${p[2]}</small></div></div>`
+add('00-launch-website', 1080, 1350, `
+<div class="post mist" style="padding-bottom:0">${top('')}
+  <span class="pill small" style="position:absolute;top:96px;right:72px">🎉 NEW · جديد</span>
+  <div style="display:flex;gap:44px;margin-top:34px;flex:1;min-height:0">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding-top:10px">
+      <h1 class="ar" style="font-size:104px;line-height:1.05">صرنا أونلاين!</h1>
+      <p class="en" style="font-size:44px;text-align:right;margin-top:8px">We’re now online</p>
+      <p class="ar" style="font-size:36px;font-weight:700;color:var(--ink);margin-top:26px;line-height:1.35">اطلب كل حاجات حمّامك من البيت، ومنوصّلك لكل لبنان.</p>
+      <div style="display:flex;flex-direction:column;gap:16px;margin-top:34px">${perks.map(perkHtml).join('')}</div>
+    </div>
+    <div style="width:400px;flex-shrink:0;position:relative">
+      <div class="phone" style="position:absolute;top:0;left:0;width:400px"><div class="screen" style="height:820px"><img src="${site}" alt=""></div></div>
+    </div>
+  </div>
+  <div style="height:170px;margin:0 -72px;background:var(--g);display:flex;align-items:center;justify-content:space-between;padding:0 72px;position:relative;z-index:3">
+    <div><p style="font-size:26px;color:#a9cdb1;font-weight:700">زوروا الموقع · Shop now</p><b style="font-size:58px;color:#fff;line-height:1.1">twainyplast.com</b></div>
+    <div style="text-align:right"><span class="wa" style="display:flex;align-items:center;gap:10px;font-size:34px;font-weight:800;color:#fff">${waIcon.replace('<svg', '<svg style="width:40px;height:40px"')}${WA}</span><p style="font-size:24px;color:#a9cdb1;font-weight:600;margin-top:6px">Qsarnaba · قصرنبا</p></div>
+  </div>
+</div>`)
+add('00-launch-website-story', 1080, 1920, `
+<div class="post dark" style="padding:150px 72px 0">
+  <div style="display:flex;justify-content:space-between;align-items:center">${top('').replace('<div class="top">', '<div class="top" style="width:100%">')}</div>
+  <h1 class="ar" style="font-size:124px;margin-top:40px">صرنا أونلاين! 🎉</h1>
+  <p class="en" style="font-size:52px;text-align:right">We’re now online: twainyplast.com</p>
+  <p class="ar" style="font-size:40px;font-weight:700;color:#e3efe6;margin-top:18px">كل حاجات حمّامك… بتوصلك لكل لبنان</p>
+  <div style="display:flex;gap:40px;margin-top:56px;align-items:flex-start">
+    <div class="phone" style="width:400px;flex-shrink:0"><div class="screen" style="height:780px"><img src="${site}" alt=""></div></div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:20px;padding-top:30px">${perks.map(perkHtml).join('')}</div>
+  </div>
+  <div style="position:absolute;left:72px;right:72px;bottom:250px;background:#fff;border-radius:999px;padding:26px 40px;display:flex;justify-content:center;align-items:center;gap:20px">
+    <span style="font-size:44px">🔗</span><b style="font-size:46px;color:var(--g)">twainyplast.com</b><span class="ar" style="font-size:34px;color:var(--red)">· كبسوا هون</span>
+  </div>
+</div>`)
 
 // ---------- 1. Reel 1 cover (9:16, key content inside the 3:4 grid crop) ----------
 add('01-reel1-cover', 1080, 1920, `
@@ -265,7 +319,7 @@ add('08-reel3-cover', 1080, 1920, `
 
 const page = (w, h, body) => `<!doctype html><html><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<style>:root{--w:${w}px;--h:${h}px}${css}</style></head><body>${body}</body></html>`
+<style>:root{--w:${w}px;--h:${h}px}${css}${cssLaunch}</style></head><body>${body}</body></html>`
 
 const browser = await chromium.launch(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {})
 const ctx = await browser.newContext({ deviceScaleFactor: 1 })

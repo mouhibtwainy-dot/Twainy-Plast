@@ -1,4 +1,4 @@
-# First 8 posts: "Choose with Confidence" (Weeks 1–3)
+# Launch post + first 8 posts: "Choose with Confidence" (Weeks 1–3)
 
 Rendered files are in `png/`. Feed posts are 1080×1350 (4:5). Reel covers are 1080×1920 (9:16), with all key content inside the central 1080×1440 area so the profile grid's 3:4 crop doesn't cut it.
 
@@ -21,6 +21,30 @@ Core hashtags (every post): `#TwainyPlast #تويني_بلاست #اختار_ب�
 Local hashtags: `#Lebanon #لبنان #Bekaa #البقاع`
 
 ---
+
+## 0. Launch announcement: "We're now online" (`00-launch-website.png` + `00-launch-website-story.png`)
+**When:** Mon Oct 26, 21:00, the first post on the account, before Reel 1 · IG + FB feed post, IG/FB story, WhatsApp Status · pillar: Order Easy
+- **Pin** the feed post to the top of the Instagram profile and the Facebook page for the whole campaign.
+- **Story:** place Instagram's **link sticker** over the white "twainyplast.com" button, linking to `https://twainyplast.com/?utm_source=instagram&utm_medium=story&utm_campaign=cwc&utm_content=launch`. Save the story to a "Shop online" highlight.
+- **WhatsApp:** post the story image as a Status, and send it once to the opt-in customer broadcast list with the link `?utm_source=whatsapp&utm_medium=broadcast&utm_campaign=cwc&utm_content=launch`.
+- **Paid (optional):** this is the clearest awareness message, so the week-1 $30 can boost this post (Lebanon, 25–55, broad, goal: link clicks) instead of Reel 1.
+
+The phone shows a real screenshot of the twainyplast.com mobile homepage (Oct 24, 2026).
+
+**Caption**
+> صرنا أونلاين! 🎉
+> هلّق فيك تطلب كل حاجات حمّامك من البيت: خلاطات، مرايات LED، مراحيض، مغاسل، دوشات ومضخّات مي… وأكتر من ١٧٥ قطعة بأسعار واضحة.
+> 🚚 منوصّل لكل لبنان
+> 🎁 التوصيل مجاني للطلبات فوق $30
+> 💵 والدفع عند الاستلام
+> 🛒 twainyplast.com (الرابط بالبايو)
+> 💬 عندك سؤال؟ واتساب 76 742 274
+>
+> We're now online! Order everything for your bathroom from home: mixers, LED mirrors, WCs, basins, showers and pumps, 175+ products with clear prices. Delivery all over Lebanon, free on orders over $30, cash on delivery.
+> 🛒 twainyplast.com · 💬 WhatsApp 76 742 274
+
+**Hashtags:** core + `#تسوق_اونلاين #أدوات_صحية #حمامات #ShopOnline #SanitaryWare #BathroomLebanon` + local
+**Alt text:** Announcement that Twainy Plast is now online: a phone showing the twainyplast.com homepage, with the four benefits (all your bathroom needs, delivery all over Lebanon, free delivery over $30, cash on delivery).
 
 ## 1. Reel 1 cover: "Meet Twainy Plast" (`01-reel1-cover.png`)
 **When:** Thu Oct 29, 21:00 · IG + FB Reel · pillar: Inside Twainy · Reel script: deck slide "Reel 1 storyboard"
