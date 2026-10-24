@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Download bundles of already-committed creative files
+creative/*.zip
