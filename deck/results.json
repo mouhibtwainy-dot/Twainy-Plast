@@ -231,43 +231,37 @@
   },
   "competitors": [
     {
-      "name": "Otec Sanitary Ware & Tiles",
-      "short": "Otec",
+      "name": "Builders Sal",
       "type": "Direct",
-      "focus": "Roca sanitary ware & tiles distributor",
-      "platforms": "Instagram · Facebook",
-      "igFollowers": 1722,
-      "igPosts": 188,
-      "fbFollowers": 9700,
-      "since": null,
-      "path": "Beirut showroom",
-      "source": "Public Instagram/Facebook profile counts via search, Nov 2026"
-    },
-    {
-      "name": "Metachrome",
-      "short": "Metachrome",
-      "type": "Direct",
-      "focus": "Plumbing & sanitary ware distributor",
-      "platforms": "Instagram",
-      "igFollowers": 1202,
-      "igPosts": 194,
-      "fbFollowers": null,
-      "since": 1968,
-      "path": "Distributor network · catalogue website",
-      "source": "Public Instagram profile counts via search, Nov 2026"
-    },
-    {
-      "name": "Builders SAL",
-      "short": "Builders",
-      "type": "Indirect",
-      "focus": "Tiles, faucets, sanitary ware, vanities",
       "platforms": "Facebook · LinkedIn (no Instagram found)",
-      "igFollowers": null,
-      "igPosts": null,
-      "fbFollowers": null,
-      "since": 2000,
-      "path": "Jdeideh showroom · WhatsApp · catalogue website",
-      "source": "builderslebanon.com, Facebook page, Nov 2026"
+      "followers": "5.1K (Facebook)",
+      "posts30": "Not public",
+      "engagement": "Not public",
+      "prices": "No online prices found",
+      "path": "Jdeideh showroom · WhatsApp",
+      "source": "facebook.com/builderssal, builderslebanon.com, Nov 2026"
+    },
+    {
+      "name": "Arcom Group",
+      "type": "Direct",
+      "platforms": "Instagram · Facebook · TikTok · LinkedIn",
+      "followers": "~20K (Instagram)",
+      "posts30": "Not public (644 posts in total)",
+      "engagement": "Not public",
+      "prices": "Yes, in its online store",
+      "path": "Online store (arcomgroup.com) · 7 showrooms",
+      "source": "instagram.com/arcomgroup, arcomgroup.com, Nov 2026"
+    },
+    {
+      "name": "Chromotech",
+      "type": "Direct (trade)",
+      "platforms": "None found",
+      "followers": "0 (no accounts found)",
+      "posts30": "0",
+      "engagement": "n/a",
+      "prices": "No online presence",
+      "path": "Showrooms in Sin El Fil & Hadath · phone",
+      "source": "Kompass and Index of Lebanon directories, Nov 2026"
     }
   ],
   "assumptions": {

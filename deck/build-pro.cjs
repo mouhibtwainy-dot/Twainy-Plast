@@ -336,43 +336,23 @@ function slide(master, section, kicker, title) {
   }
 
   // ================= 9. COMPETITORS =================
-  s = slide('DASHBOARD', 'Diagnose & research', 'STEP 2 · COMPETITOR SOCIAL AUDIT', 'Twainy posts the most but has the smallest audience: room to grow')
+  s = slide('CONTENT', 'Diagnose & research', 'STEP 2 · COMPETITOR SOCIAL AUDIT', 'Competitors show products, but rarely prices, delivery or fit')
   const comp = D.competitors
-  const num = (x) => (has(x) ? x.toLocaleString('en-US') : '—')
-  const brandCell = (t, sub) => [{ text: t, options: { bold: true, color: C.background1, breakLine: true } }, { text: sub, options: { fontSize: 9, color: C.accent4 } }]
+  const muted = (t) => (/^(Not public|n\/a|0$|None found)/.test(t) ? { text: t, options: { color: C.accent5, italic: true } } : t)
   s.addTable([
-    [{ text: 'Public profiles · Nov 2026', options: { bold: true, color: C.background1, fill: { color: C.text2 } } },
-      { text: brandCell('Twainy Plast', 'our client'), options: { fill: { color: C.accent2 } } },
-      ...comp.map((c) => ({ text: brandCell(c.short, c.type), options: { fill: { color: C.text2 } } }))],
-    ['Focus', 'Plumbing systems + bathroom range', ...comp.map((c) => c.focus)],
-    ['Platforms', (SO.platforms || []).join(' · '), ...comp.map((c) => c.platforms)],
-    ['Instagram followers', { text: num(SO.igFollowersEnd), options: { bold: true } }, ...comp.map((c) => ({ text: num(c.igFollowers), options: { bold: true } }))],
-    ['Instagram posts (total)', { text: num(SO.igPostsTotal), options: { bold: true } }, ...comp.map((c) => ({ text: num(c.igPosts), options: { bold: true } }))],
-    ['In business since', '1987', ...comp.map((c) => (has(c.since) ? String(c.since) : '—'))],
-    ['Purchase path', 'Online store (COD) · WhatsApp · store', ...comp.map((c) => c.path)],
-    ['Last 30 days', `${VIDEOS} videos + 5 posts · ${Math.round(SO.igViews30d / 1000)}K views`, ...comp.map(() => ({ text: 'not public', options: { color: C.accent5, italic: true } }))],
-  ], { ...tbl(0.6, 1.5, 8.2, [1.75, 1.75, 1.6, 1.55, 1.55]), rowH: [0.5, 0.42, 0.42, 0.36, 0.36, 0.34, 0.5, 0.42], fontSize: 10 })
-  // share-of-voice charts (Instagram, the shared platform)
-  const ig = [['Twainy', SO.igFollowersEnd, SO.igPostsTotal], ...comp.filter((c) => has(c.igFollowers)).map((c) => [c.short, c.igFollowers, c.igPosts])]
-  const totF = ig.reduce((a, r) => a + r[1], 0)
-  const totP = ig.reduce((a, r) => a + r[2], 0)
-  card(s, 9.05, 1.5, 3.65, 1.65)
-  s.addChart(pres.charts.BAR, [{ name: 'Followers', labels: ig.map((r) => r[0]), values: ig.map((r) => Math.round((r[1] / totF) * 100)) }], { ...chart, x: 9.15, y: 1.55, w: 3.45, h: 1.55, barDir: 'bar', title: 'Share of Instagram followers', chartColors: [HEX.chrome], catAxisOrientation: 'maxMin', dataLabelPosition: 'outEnd', dataLabelFormatCode: '0"%"', barGapWidthPct: 40, titleFontSize: 11, catAxisLabelFontSize: 9, dataLabelFontSize: 9 })
-  card(s, 9.05, 3.3, 3.65, 1.65)
-  s.addChart(pres.charts.BAR, [{ name: 'Posts', labels: ig.map((r) => r[0]), values: ig.map((r) => Math.round((r[2] / totP) * 100)) }], { ...chart, x: 9.15, y: 3.35, w: 3.45, h: 1.55, barDir: 'bar', title: 'Share of voice: Instagram posts', chartColors: [HEX.leaf], catAxisOrientation: 'maxMin', dataLabelPosition: 'outEnd', dataLabelFormatCode: '0"%"', barGapWidthPct: 40, titleFontSize: 11, catAxisLabelFontSize: 9, dataLabelFontSize: 9 })
-  const twF = Math.round((SO.igFollowersEnd / totF) * 100)
-  const twP = Math.round((SO.igPostsTotal / totP) * 100)
-  const boxes = [
-    ['Method', `Public profile counts for the three Lebanese brands on Instagram, Nov 2026. Share of voice = brand posts ÷ all brands’ posts. No Instagram account found for Builders SAL. Otec also has 9.7K Facebook followers.`, C.background1, C.text2, C.text1],
-    ['Key insight', `Twainy publishes the most (${twP}% share of voice) but has the smallest audience (${twF}% of followers). Content volume is not the gap: turning views into followers and orders is.`, C.background1, C.accent2, C.text1],
-    ['Our opening', 'Be the Lebanese sanitary brand people can buy from online with confidence: clear prices, cash on delivery, how-to-order guides and live video before buying.', C.text2, C.accent4, C.background1],
-  ]
-  boxes.forEach(([h, t, fill, hc, tc], i) => {
-    const x = 0.6 + i * 4.1
-    card(s, x, 5.15, 3.9, 1.6, fill)
-    text(s, [{ text: h, options: { bold: true, color: hc, breakLine: true } }, { text: t, options: { color: tc } }], { x: x + 0.2, y: 5.27, w: 3.5, h: 1.4, fontSize: 10.5 })
-  })
-  s.addNotes('Sources: public Instagram profiles of @otecsanitarylb (1,722 followers, 188 posts) and @metachrome.lb (1,202 followers, 194 posts), Otec Facebook page (9.7K followers), builderslebanon.com and the Builders Facebook page, Nov 2026. Twainy figures from the account itself (957 followers, 225 posts, 87K views in 30 days). Engagement rates and 30-day post counts are not public without account access.')
+    hdr(['Social audit · Nov 2026', 'Twainy Plast', ...comp.map((c) => `${c.name} · ${c.type}`)]),
+    ['Platforms', (SO.platforms || []).join(', '), ...comp.map((c) => muted(c.platforms))],
+    ['Followers', `${SO.igFollowersEnd.toLocaleString('en-US')} (Instagram)`, ...comp.map((c) => muted(c.followers))],
+    ['Posts / 30 days', `${VIDEOS} videos + 5 posts`, ...comp.map((c) => muted(c.posts30))],
+    ['Reach / engagement', `${Math.round(SO.igViews30d / 1000)}K views in 30 days`, ...comp.map((c) => muted(c.engagement))],
+    ['Prices shown?', 'Yes, every post', ...comp.map((c) => muted(c.prices))],
+    ['Purchase path', 'Website · WhatsApp · store', ...comp.map((c) => muted(c.path))],
+  ], { ...tbl(0.6, 1.55, 12.1, [2.4, 2.8, 2.3, 2.3, 2.3]), rowH: 0.46 })
+  card(s, 0.6, 5.0, 5.9, 1.75, C.background2, false)
+  text(s, [{ text: 'Method', options: { bold: true, color: C.text2, breakLine: true } }, { text: 'Public profiles, websites and directories checked in November 2026. 30-day post counts and engagement need account access, so they are marked “not public”. Twainy figures come from its own Instagram dashboard.' }], { x: 0.85, y: 5.15, w: 5.4, h: 1.5, fontSize: 12 })
+  card(s, 6.8, 5.0, 5.9, 1.75, C.text2, false)
+  text(s, [{ text: 'Our opening', options: { bold: true, color: C.accent4, breakLine: true } }, { text: 'Own “clear and honest”: prices on every post, how-to-order guides, free help choosing and live video before buying. Arcom is the benchmark to beat online.', options: { color: C.background1 } }], { x: 7.05, y: 5.15, w: 5.4, h: 1.5, fontSize: 13 })
+  s.addNotes('Sources: facebook.com/builderssal (5.1K followers), builderslebanon.com; instagram.com/arcomgroup (~20K followers, 644 posts), arcomgroup.com (Shopify store with prices); Chromotech listed with no social media in the Index of Lebanon directory. Twainy: 957 Instagram followers, 225 posts, 87K views in 30 days.')
 
   // ================= 10. PERSONAS =================
   s = slide('CONTENT', 'Diagnose & research', 'STEP 2 · BUYER PERSONAS', 'Two personas, validated by who actually ordered')
