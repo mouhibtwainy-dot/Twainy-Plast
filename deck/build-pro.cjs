@@ -135,19 +135,27 @@ function slide(master, section, kicker, title) {
   // ================= 1. TITLE =================
   pres.addSection({ title: 'Introduction' })
   let s = pres.addSlide({ masterName: 'BLANK_DARK', sectionTitle: 'Introduction' })
-  s.addImage({ path: A('site-desktop.jpg'), x: 6.4, y: 0, w: 6.933, h: 7.5, sizing: { type: 'cover', w: 6.933, h: 7.5 }, altText: 'twainyplast.com homepage' })
-  s.addShape(pres.shapes.RECTANGLE, { x: 6.4, y: 0, w: 6.933, h: 7.5, fill: { color: HEX.green, transparency: 72 }, line: { color: HEX.green, width: 0 } })
-  card(s, 0.7, 0.7, 1.55, 1.1, C.background1, false)
-  await fit(s, A('logo.png'), 0.8, 0.76, 1.35, 0.98, { alt: 'Twainy Plast logo' })
-  text(s, 'MKT 843 · FINAL CONSULTING PROJECT', { x: 0.7, y: 2.45, w: 5.4, h: 0.3, fontSize: 11, bold: true, charSpacing: 3, color: C.accent4 })
-  text(s, 'From Visitors to Customers', { x: 0.7, y: 2.8, w: 5.5, h: 1.7, fontSize: 46, bold: true, color: C.background1 })
-  text(s, 'Social media & digital growth strategy for Twainy Plast Sanitary', { x: 0.7, y: 4.5, w: 5.4, h: 0.8, fontSize: 18, color: C.accent4 })
-  s.addShape(pres.shapes.RECTANGLE, { x: 0.7, y: 5.45, w: 0.6, h: 0.06, fill: { color: C.accent2 }, line: { color: C.accent2, width: 0 } })
+  // Full-bleed homepage screenshot with the title written on top (no split panel)
+  s.addImage({ path: A('site-home-wide.jpg'), x: 0, y: 0, w: 13.333, h: 7.5, sizing: { type: 'cover', w: 13.333, h: 7.5 }, altText: 'twainyplast.com homepage' })
+  s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 13.333, h: 7.5, fill: { color: '0F2A18', transparency: 78 }, line: { color: '0F2A18', width: 0 } })
+  // darker band across the lower part of the screenshot carries the title, below the site's own banner
+  s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 5.05, w: 13.333, h: 2.45, fill: { color: '0F2A18', transparency: 22 }, line: { color: '0F2A18', width: 0 } })
+  s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 5.05, w: 13.333, h: 0.06, fill: { color: C.accent2 }, line: { color: C.accent2, width: 0 } })
+  text(s, 'MKT 843 · FINAL CONSULTING PROJECT · LAU AKSOB MBA', { x: 0.7, y: 5.3, w: 9, h: 0.3, fontSize: 12, bold: true, charSpacing: 3, color: 'A9CDB1' })
+  text(s, 'From Visitors to Customers', { x: 0.7, y: 5.6, w: 8.6, h: 0.95, fontSize: 48, bold: true, color: C.background1 })
+  text(s, 'Social media & digital growth strategy for Twainy Plast Sanitary', { x: 0.7, y: 6.55, w: 8.6, h: 0.45, fontSize: 18, color: 'E3EFE6' })
   const names = D.team.map((t) => t.name).filter(has)
   text(s, [
-    { text: 'Dr. Kiray Khoury · LAU AKSOB MBA · November 26, 2026', options: { breakLine: true } },
+    { text: 'Dr. Kiray Khoury', options: { bold: true, breakLine: true } },
+    { text: 'November 26, 2026', options: { breakLine: true } },
     names.length ? { text: names.join(' · ') } : { text: 'Team: [names]', options: { color: 'F2B66B' } },
-  ], { x: 0.7, y: 5.7, w: 5.4, h: 0.8, fontSize: 12, color: C.accent4 })
+  ], { x: 9.5, y: 5.75, w: 3.2, h: 1.2, fontSize: 13, color: 'E3EFE6', align: 'right' })
+  if (process.env.TITLE_ONLY) {
+    await pres.writeFile({ fileName: OUT })
+    if (process.env.APPLY_THEME) await require(process.env.APPLY_THEME).applyTheme(OUT, THEME)
+    console.log('wrote title slide only', OUT)
+    return
+  }
   s.addNotes('Introduce Twainy Plast and the question we tackled: how to turn a brand-new website into real orders through social media.')
 
   // ================= 2. EXECUTIVE DASHBOARD =================
