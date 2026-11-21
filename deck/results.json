@@ -172,7 +172,7 @@
     "postsPublished": null,
     "reelsPublished": null,
     "igFollowersStart": null,
-    "igFollowersEnd": null,
+    "igFollowersEnd": 957,
     "fbFollowersStart": null,
     "fbFollowersEnd": null,
     "reach": null,
@@ -203,7 +203,9 @@
       "TikTok",
       "Instagram",
       "Facebook"
-    ]
+    ],
+    "igPostsTotal": 225,
+    "igViews30d": 87000
   },
   "whatsapp": {
     "inquiries": null,
@@ -229,31 +231,43 @@
   },
   "competitors": [
     {
-      "name": "Builders Sal",
+      "name": "Otec Sanitary Ware & Tiles",
+      "short": "Otec",
       "type": "Direct",
-      "followers": null,
-      "postsPer30d": null,
-      "engagementRate": null,
-      "pricesShown": null,
-      "notes": null
+      "focus": "Roca sanitary ware & tiles distributor",
+      "platforms": "Instagram · Facebook",
+      "igFollowers": 1722,
+      "igPosts": 188,
+      "fbFollowers": 9700,
+      "since": null,
+      "path": "Beirut showroom",
+      "source": "Public Instagram/Facebook profile counts via search, Nov 2026"
     },
     {
-      "name": "Arcom Group",
+      "name": "Metachrome",
+      "short": "Metachrome",
       "type": "Direct",
-      "followers": null,
-      "postsPer30d": null,
-      "engagementRate": null,
-      "pricesShown": null,
-      "notes": null
+      "focus": "Plumbing & sanitary ware distributor",
+      "platforms": "Instagram",
+      "igFollowers": 1202,
+      "igPosts": 194,
+      "fbFollowers": null,
+      "since": 1968,
+      "path": "Distributor network · catalogue website",
+      "source": "Public Instagram profile counts via search, Nov 2026"
     },
     {
-      "name": "Chromotech",
-      "type": "Direct (trade)",
-      "followers": null,
-      "postsPer30d": null,
-      "engagementRate": null,
-      "pricesShown": null,
-      "notes": null
+      "name": "Builders SAL",
+      "short": "Builders",
+      "type": "Indirect",
+      "focus": "Tiles, faucets, sanitary ware, vanities",
+      "platforms": "Facebook · LinkedIn (no Instagram found)",
+      "igFollowers": null,
+      "igPosts": null,
+      "fbFollowers": null,
+      "since": 2000,
+      "path": "Jdeideh showroom · WhatsApp · catalogue website",
+      "source": "builderslebanon.com, Facebook page, Nov 2026"
     }
   ],
   "assumptions": {
