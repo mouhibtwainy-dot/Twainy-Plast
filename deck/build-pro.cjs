@@ -14,6 +14,7 @@ const ROOT = __dirname
 const OUT = process.argv[2] || path.join(ROOT, 'Twainy-Plast-Presentation.pptx')
 const D = JSON.parse(fs.readFileSync(path.join(ROOT, 'results.json'), 'utf8'))
 const A = (f) => path.join(ROOT, 'assets', f)
+const MEDIA = (f) => path.join(ROOT, 'media', f)
 
 const HEX = { ink: '1A1F1C', green: '1B4D2B', leaf: '2E7D3A', mist: 'EEF5F0', page: 'F4F7F5', red: 'D63A14', chrome: '8D99AE', slate: '5B6770', grid: 'E3E8E5', sage: 'A9CDB1', amber: 'B26A00', white: 'FFFFFF' }
 const THEME = { name: 'Twainy Plast', headFontFace: 'Calibri', bodyFontFace: 'Calibri', colors: { dk1: HEX.ink, lt1: HEX.white, dk2: HEX.green, lt2: HEX.mist, accent1: HEX.leaf, accent2: HEX.red, accent3: HEX.chrome, accent4: HEX.sage, accent5: HEX.slate, accent6: 'C9A227', hlink: HEX.leaf, folHlink: HEX.green } }
@@ -133,7 +134,7 @@ const tbl = (x, y, w, colW, extra = {}) => ({ x, y, w, colW, fontSize: 11, color
 const tbd = (x, f) => (has(x) ? (f ? f(x) : String(x)) : { text: TBD, options: { color: HEX.amber, italic: true } })
 const bullets = (arr, o = {}) => arr.map((t, i) => ({ text: t, options: { bullet: { indent: 14 }, breakLine: i < arr.length - 1, ...o } }))
 
-const SLIDE_IDS = { 'THE CLIENT': 'client', 'OUR BRAND AGENCIES': 'brands', 'EXECUTIVE SUMMARY': 'summary', 'THE OPPORTUNITY': 'opportunity', 'THE SOLUTION': 'solution', 'STEP 2 · COMPETITOR SOCIAL AUDIT': 'competitors' }
+const SLIDE_IDS = { 'THE CLIENT': 'client', 'OUR BRAND AGENCIES': 'brands', 'EXECUTIVE SUMMARY': 'summary', 'THE OPPORTUNITY': 'opportunity', 'THE SOLUTION': 'solution', 'STEP 2 · COMPETITOR SOCIAL AUDIT': 'competitors', 'STEP 4 · REEL IN ACTION': 'reel' }
 function slide(master, section, kicker, title) {
   const id = SLIDE_IDS[kicker] || kicker.toLowerCase().replace(/[^a-z0-9]+/g, '-')
   const s = deckFor(id).addSlide(ONLY ? { masterName: master } : { masterName: master, sectionTitle: section })
@@ -476,6 +477,35 @@ function slide(master, section, kicker, title) {
     text(s, rl[i][1], { x: 6.35, y: y + 0.42, w: 6.1, h: 0.4, fontSize: 15, bold: true, color: C.text2 })
     text(s, `Hook: ${rl[i][2]} · 9:16 · 20–30 s · 6 shots · owner voice-over · trending audio · subtitles`, { x: 6.35, y: y + 0.85, w: 6.2, h: 0.5, fontSize: 11, color: C.accent5 })
   }
+
+  // ================= 15b. REEL IN ACTION (embedded video) =================
+  s = slide('DASHBOARD', 'Strategy & creative', 'STEP 4 · REEL IN ACTION', `One of our ${VIDEOS} reels: store, website, WhatsApp in 27 seconds`)
+  // phone frame with the real reel embedded, so it plays offline from inside PowerPoint
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.8, y: 1.45, w: 3.04, h: 5.22, rectRadius: 0.33, fill: { color: '15171A' }, line: { color: '3A3D42', width: 1.5 }, shadow: shadow() })
+  const poster = 'image/jpeg;base64,' + fs.readFileSync(MEDIA('twainy-reel-poster.jpg')).toString('base64')
+  s.addMedia({ type: 'video', path: MEDIA('twainy-reel.mp4'), x: 0.92, y: 1.57, w: 2.8, h: 4.98, cover: poster })
+  text(s, '▶ Click to play · 27 s', { x: 0.8, y: 6.72, w: 3.04, h: 0.24, fontSize: 9, color: C.accent5, align: 'center' })
+  const moments = [
+    ['0:01', 'reel-frame-1.jpg', 'Hook', 'The owner speaks straight to camera about bathroom renovation'],
+    ['0:11', 'reel-frame-11.jpg', 'Proof', 'Shows the real twainyplast.com store on a phone'],
+    ['0:16', 'reel-frame-16.jpg', 'Choice', 'Walks through categories: basins, mirrors, mixers, pumps'],
+    ['0:21', 'reel-frame-21.jpg', 'Action', 'Ends with three WhatsApp numbers to order'],
+  ]
+  moments.forEach(([t, img, h, d], i) => {
+    const x = 4.3 + i * 2.13
+    card(s, x, 1.5, 1.98, 3.45)
+    s.addImage({ path: MEDIA(img), x: x + 0.1, y: 1.6, w: 1.78, h: 2.05, sizing: { type: 'cover', w: 1.78, h: 2.05 }, altText: `${h} moment at ${t}` })
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: x + 0.16, y: 1.68, w: 0.55, h: 0.26, rectRadius: 0.13, fill: { color: C.accent2 }, line: { color: C.accent2, width: 0 } })
+    text(s, t, { x: x + 0.16, y: 1.68, w: 0.55, h: 0.26, fontSize: 9, bold: true, color: C.background1, align: 'center', valign: 'middle' })
+    text(s, h, { x: x + 0.12, y: 3.75, w: 1.75, h: 0.3, fontSize: 13, bold: true, color: C.text2 })
+    text(s, d, { x: x + 0.12, y: 4.05, w: 1.78, h: 0.8, fontSize: 10, color: C.accent5 })
+  })
+  kpi(s, 4.3, 5.2, 2.0, 1.55, 'Videos published', String(VIDEOS), { fill: C.accent2, size: 30 })
+  kpi(s, 6.43, 5.2, 2.0, 1.55, 'Platforms', String(PLATFORMS.length), { size: 30, note: PLATFORMS.join(' · ') })
+  kpi(s, 8.56, 5.2, 2.0, 1.55, 'Instagram views', `${Math.round(SO.igViews30d / 1000)}K`, { size: 30, note: 'last 30 days' })
+  card(s, 10.69, 5.2, 2.01, 1.55, C.text2)
+  text(s, [{ text: 'Formula', options: { bold: true, color: C.accent4, breakLine: true } }, { text: 'Face-to-camera hook → real website → clear WhatsApp call to action', options: { color: C.background1 } }], { x: 10.85, y: 5.32, w: 1.75, h: 1.35, fontSize: 10.5 })
+  s.addNotes('Play the reel (27 s). It follows the campaign formula: a human hook, proof that the online store is real, then a direct WhatsApp call to action.')
 
   // ================= 16. KPI FRAMEWORK & TRACKING =================
   addSection({ title: 'Results' })
