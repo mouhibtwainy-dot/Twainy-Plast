@@ -56,8 +56,19 @@ const searchCampWk = perWeek(K.googleSessions + K.bingSessions, K.days)
 const W = D.whatsapp
 const SO = D.social
 const AD = D.ads
-const totalOrders = K.deliveredOrders + (has(W.orders) ? W.orders : 0)
+const totalOrders = K.orders + (has(W.orders) ? W.orders : 0)
 const totalRevenue = deliveredRevenue + (has(W.revenue) ? W.revenue : 0)
+const growth = (a, b) => (b >= a ? '+' : '−') + Math.abs(Math.round((b / a - 1) * 100)) + '%'
+const sessWkB = perWeek(B.sessions, B.days)
+const sessWkC = perWeek(K.sessions, K.days)
+const lebWkB = perWeek(B.lebanonSessions, B.days)
+const lebWkC = perWeek(K.lebanonSessions, K.days)
+const waShare = has(W.orders) ? W.orders / totalOrders : null
+const basketX = (deliveredRevenue / K.deliveredOrders / 45).toFixed(0) + '×'
+const VIDEOS = SO.videosPublished
+const PLATFORMS = (SO.platforms || []).join(', ')
+const lastSocial = S.weekly[S.weekly.length - 1].social
+const preSocial = S.weekly.find((w) => w.week === 'Oct 19').social
 
 // ---------- layouts ----------
 const footerObjs = (dark) => [
@@ -151,26 +162,26 @@ function slide(step, title, section) {
   s.addNotes('Open with the client and the question: a family sanitary-ware store launched a website and nobody was buying. Over 4 weeks we tested how social content, trust and an easier buying journey could change that.')
 
   // ===== 2. Executive summary =====
-  s = slide('EXECUTIVE SUMMARY', 'Four weeks, first real sales, and a clear path to scale', 'Opening')
+  s = slide('EXECUTIVE SUMMARY', 'Four weeks: from zero orders to a working sales engine', 'Opening')
   text(s, [
     { text: 'The problem: ', options: { bold: true, color: C.text2 } },
     { text: `Twainy Plast launched twainyplast.com in October with 175 products. In the launch period (${S.baselinePeriod}) it had ${B.sessions} sessions and 0 orders.`, options: { breakLine: true } },
     { text: 'What we did: ', options: { bold: true, color: C.text2 } },
-    { text: 'Audited the store and competitors, built two personas, a green-and-red brand system and a channel ecosystem, then ran the 4-week "Choose with Confidence" campaign: trust, how to order, free help choosing, live video before buying.', options: { breakLine: true } },
+    { text: `Audited the store and competitors, built two personas, a green-and-red brand system and a channel ecosystem, then ran the 4-week “Choose with Confidence” campaign with ${VIDEOS} short videos on ${PLATFORMS}.`, options: { breakLine: true } },
     { text: 'What happened: ', options: { bold: true, color: C.text2 } },
-    { text: `${K.orders} online orders (${K.deliveredOrders} delivered, ${money(deliveredRevenue)}), a delivered average order of ${money(deliveredRevenue / K.deliveredOrders)}, social visits ×${(socialCampWk / socialBaseWk).toFixed(1)} and search visits ×${(searchCampWk / searchBaseWk).toFixed(1)} per week, and 70% of traffic now from Lebanon.` },
+    { text: `${totalOrders} orders (${W.orders} on WhatsApp in ${W.periodDays} days, ${K.orders} on the website), baskets ${basketX} larger than planned, and per week: visits from Lebanon ${growth(lebWkB, lebWkC)}, social visits ${growth(socialBaseWk, socialCampWk)}, search visits ${growth(searchBaseWk, searchCampWk)}.` },
   ], { x: 0.6, y: 1.55, w: 6.6, h: 4.3, fontSize: 15, paraSpaceAfter: 10 })
   const tiles = [
-    [String(K.orders), `online orders (${K.deliveredOrders} delivered)`, C.text2],
-    [money(deliveredRevenue), 'delivered online revenue', C.text2],
-    [show(W.orders), 'WhatsApp-assisted orders', C.accent2],
-    [`×${(socialCampWk / socialBaseWk).toFixed(1)}`, 'social visits per week vs launch', C.text2],
-    [pct(atcCamp), `add-to-cart rate (launch ${pct(atcBase)})`, C.text2],
-    [show(SO.reach, (x) => x.toLocaleString('en-US')), 'social reach (Lebanon)', C.text2],
+    [String(totalOrders), `orders: ${W.orders} WhatsApp + ${K.orders} website`, C.accent2],
+    [growth(lebWkB, lebWkC), 'website visits from Lebanon per week', C.text2],
+    [growth(socialBaseWk, socialCampWk), 'social visits to the website per week', C.text2],
+    [growth(searchBaseWk, searchCampWk), 'Google + Bing visits per week', C.text2],
+    [growth(atcBase, atcCamp), `add-to-cart rate (${pct(atcBase)} → ${pct(atcCamp)})`, C.text2],
+    [String(VIDEOS), `short videos on ${PLATFORMS}`, C.text2],
   ]
   tiles.forEach(([b, l, f], i) => stat(s, 7.5 + (i % 2) * 2.65, 1.5 + Math.floor(i / 2) * 1.45, 2.45, 1.3, b, l, { fill: f, size: 28 }))
   card(s, 0.6, 6.05, 12.1, 0.75, C.background2)
-  text(s, [{ text: 'Bottom line: ', options: { bold: true, color: C.accent2 } }, { text: 'demand is real and nationwide, and baskets are large. The next lever is conversion: fix checkout friction, track every source, and turn social attention into WhatsApp and website orders.' }], { x: 0.85, y: 6.1, w: 11.6, h: 0.65, fontSize: 14, valign: 'middle' })
+  text(s, [{ text: 'Bottom line: ', options: { bold: true, color: C.accent2 } }, { text: 'demand is real and nationwide, and most buyers prefer to order through WhatsApp after seeing our videos. The next lever is a smoother website checkout and tracking every source.' }], { x: 0.85, y: 6.1, w: 11.6, h: 0.65, fontSize: 14, valign: 'middle' })
 
   // ===== 3. Client & problem =====
   pres.addSection({ title: 'Step 1 · Diagnose' })
@@ -242,9 +253,9 @@ function slide(step, title, section) {
   card(s, 9.1, 1.55, 3.6, 5.2, C.text2)
   text(s, 'Validation from real orders', { x: 9.35, y: 1.75, w: 3.1, h: 0.4, fontSize: 15, bold: true, color: C.accent4 })
   text(s, [
-    ...S.orders.flatMap((o) => [{ text: `${o.city}: `, options: { bold: true, color: C.background1 } }, { text: `${money(o.total)}, ${o.items} items (${o.status.toLowerCase()})`, options: { color: C.background1, breakLine: true } }]),
+    ...S.orders.flatMap((o) => [{ text: `${o.city}: `, options: { bold: true, color: C.background1 } }, { text: `${o.items} items (${o.status.toLowerCase()})`, options: { color: C.background1, breakLine: true } }]),
     { text: ' ', options: { breakLine: true } },
-    { text: 'Orders came from Beirut, Metn and Bekaa, so demand is nationwide, not local. Multi-item baskets match renovators and plumbers buying for a whole job.', options: { color: C.accent4 } },
+    { text: `Website orders came from Beirut, Metn and Bekaa, plus ${W.orders} WhatsApp orders in ${W.periodDays} days. Demand is nationwide, and multi-item baskets match renovators and plumbers buying for a whole job.`, options: { color: C.accent4 } },
   ], { x: 9.35, y: 2.25, w: 3.15, h: 4.3, fontSize: 12, paraSpaceAfter: 4 })
 
   // ===== 7. Brand identity =====
@@ -271,7 +282,7 @@ function slide(step, title, section) {
 
   // ===== 8. Channel ecosystem =====
   s = slide('STEP 3 · SOCIAL & DIGITAL ECOSYSTEM', 'Every channel has one job in the buying journey', 'Step 3 · Position')
-  const flow = [['Discover', 'Instagram Reels · Facebook · Google search & Maps'], ['Consider', 'Carousels · Story highlights · product pages'], ['Convert', 'Website checkout (COD) · WhatsApp “ask before ordering”'], ['Retain', 'WhatsApp broadcasts · review requests · plumber price list']]
+  const flow = [['Discover', 'TikTok · Instagram Reels · Facebook · Google search'], ['Consider', 'Carousels · Story highlights · product pages'], ['Convert', 'Website checkout (COD) · WhatsApp “ask before ordering”'], ['Retain', 'WhatsApp broadcasts · review requests · plumber price list']]
   flow.forEach(([h, d], i) => {
     const x = 0.6 + i * 3.05
     s.addShape(pres.shapes.CHEVRON, { x, y: 1.55, w: 2.95, h: 0.8, fill: { color: i === 2 ? C.accent2 : C.text2 }, line: { color: HEX.white, width: 0 } })
@@ -280,11 +291,11 @@ function slide(step, title, section) {
   })
   s.addTable([
     hdrRow(['Channel', 'Why (persona evidence)', 'Set-up delivered']),
-    ['Instagram (primary)', 'Rania’s main platform; Reels reach non-followers', 'Bio, highlights, link-in-bio page, location tag, 5 posts + 3 Reels'],
+    ['Instagram (primary)', 'Rania’s main platform; Reels reach non-followers', `Bio, highlights, link-in-bio page, location tag, 5 posts + ${VIDEOS} videos`],
     ['Facebook', 'Older homeowners and local groups; same ads account', 'Mirrored page, WhatsApp button, shop tab'],
     ['WhatsApp Business', 'Hassan’s tool; advice, quotes and “LIVE” video requests', 'Catalogue, greeting and away messages, /live quick reply, labels'],
     ['Google Business Profile + SEO', 'High-intent “near me” and product searches', 'Categories, photos, products, keywords such as “sanitary ware Lebanon”'],
-    ['TikTok · LinkedIn', 'Not yet validated · not where buyers are', 'Deferred · excluded'],
+    ['TikTok (added in campaign)', 'Short videos reach new, younger homeowners at no cost', `Account opened; the same ${VIDEOS} videos reposted · LinkedIn excluded`],
   ], { ...tableOpts(0.6, 3.3, 12.1, [2.8, 4.4, 4.9]), rowH: 0.5 })
 
   // ===== 9. Profile mockups =====
@@ -345,7 +356,7 @@ function slide(step, title, section) {
     ['4 · Nov 16 – 22', 'Post 5 “Why order from us”', 'Best Reel re-cut', 'Review requests after delivery', 'Order now'],
   ], { ...tableOpts(0.6, 3.15, 12.1, [1.9, 3.3, 2.3, 3.2, 1.4]), rowH: 0.5 })
   text(s, [
-    { text: 'Published: ', options: { bold: true } }, val(SO.postsPublished, (x) => `${x} feed posts`), { text: ' · ' }, val(SO.reelsPublished, (x) => `${x} Reels`),
+    { text: 'Published: ', options: { bold: true } }, { text: `5 graphic posts and carousels + ${VIDEOS} short videos on ${PLATFORMS}` },
     { text: ' · Hashtags: #TwainyPlast #ChooseWithConfidence #ShopOnlineLebanon #BathroomRenovation + 2 local tags · Posting times reset from Insights after week 1.' },
   ], { x: 0.6, y: 6.15, w: 12.1, h: 0.6, fontSize: 12, color: C.accent5 })
 
@@ -365,7 +376,7 @@ function slide(step, title, section) {
   ], { x: 0.85, y: 5.12, w: 11.6, h: 1.55, fontSize: 13, paraSpaceAfter: 4 })
 
   // ===== 13. Reels =====
-  s = slide('STEP 4 · SHORT-FORM VIDEO ENGINE', 'Three Reels, storyboarded frame by frame and filmed in store', 'Step 4 · Create')
+  s = slide('STEP 4 · SHORT-FORM VIDEO ENGINE', `${VIDEOS} short videos, led by three storyboarded hero Reels`, 'Step 4 · Create')
   const reels = [['reel-a-store-to-your-door.png', 'Reel A · From our store to your door', 'Hook: “We’re online now 🎉”'], ['reel-b-how-to-order.png', 'Reel B · How to order in 20 seconds', 'Hook: “Ordering from us takes 20 seconds. Watch.”'], ['reel-c-see-it-live.png', 'Reel C · Not sure? We’ll show you live', 'Hook: “Scared to buy bathroom products online?”']]
   for (let i = 0; i < reels.length; i++) {
     const x = 0.6 + i * 4.1
@@ -376,7 +387,7 @@ function slide(step, title, section) {
   card(s, 0.6, 5.3, 12.1, 1.45, C.background2)
   text(s, [
     { text: 'Production: ', options: { bold: true } }, { text: '9:16, 20–30 s, 6 shots each; original English voice-over by the owner; trending audio from the Instagram library at low volume; burned-in subtitles.', options: { breakLine: true } },
-    { text: 'Performance: ', options: { bold: true } }, val(SO.reelViews, (x) => `${x.toLocaleString('en-US')} Reel views in total`), { text: ' · social visits to the site rose to 38 in the final week (vs 6 in the week before launch).' },
+    { text: 'Output: ', options: { bold: true } }, { text: `${VIDEOS} videos filmed in the store and posted on ${PLATFORMS}. Social visits to the website reached ${lastSocial} in the final week, ${growth(preSocial, lastSocial)} vs the week before launch.` },
   ], { x: 0.85, y: 5.42, w: 11.6, h: 1.25, fontSize: 13, paraSpaceAfter: 4 })
 
   // ===== 14. Paid strategy =====
@@ -386,12 +397,12 @@ function slide(step, title, section) {
     chartColors: [HEX.sage, HEX.leaf, HEX.green, HEX.red], showValue: true, showPercent: false, dataLabelFormatCode: '$#,##0', showLegend: true, legendPos: 'b', legendFontSize: 11, legendFontFace: '+mn-lt', legendColor: HEX.slate, dataLabelColor: HEX.white, dataLabelFontSize: 12, dataLabelFontFace: '+mn-lt',
   })
   s.addTable([
-    hdrRow(['', 'Plan', 'Actual']),
-    ['Ad spend', '$200', cell(AD.spend, money)],
-    ['Reach', '25,000 (Lebanon)', cell(AD.reach, (x) => x.toLocaleString('en-US'))],
-    ['Link clicks', '—', cell(AD.linkClicks, (x) => x.toLocaleString('en-US'))],
-    ['Link CTR', '≥ 1%', cell(AD.ctr, (x) => pct(x))],
-  ], { ...tableOpts(5.6, 1.6, 7.1, [2.3, 2.4, 2.4]), rowH: 0.5 })
+    hdrRow(['Phase', 'Objective', 'Budget']),
+    ['Week 1', 'Awareness: video views, Lebanon 25–55', '$30'],
+    ['Week 2', 'A/B test: Reel vs carousel, landing-page views', '$70'],
+    ['Weeks 3–4', 'Scale the winning creative', '$70'],
+    ['Weeks 3–4', 'Retarget video viewers and site visitors', '$30'],
+  ], { ...tableOpts(5.6, 1.6, 7.1, [1.5, 4.4, 1.2]), rowH: 0.5 })
   card(s, 5.6, 4.35, 7.1, 2.4, C.background2)
   text(s, [
     { text: 'Targeting: ', options: { bold: true } }, { text: 'Lebanon, 25–55, broad, location-based only (no sensitive interests).', options: { breakLine: true } },
@@ -428,13 +439,13 @@ function slide(step, title, section) {
     { name: 'Launch weeks', labels: wk.map((w) => w.week), values: wk.map((w) => (w.phase === 'launch' ? w.lebanon : 0)) },
     { name: 'Campaign weeks', labels: wk.map((w) => w.week), values: wk.map((w) => (w.phase === 'campaign' ? w.lebanon : 0)) },
   ], { ...chartBase, x: 0.6, y: 1.5, w: 7.4, h: 4.1, barDir: 'col', barGrouping: 'stacked', title: 'Sessions from Lebanon per week', chartColors: [HEX.sage, HEX.leaf], dataLabelPosition: 'inEnd', dataLabelColor: HEX.white, showLegend: true, legendPos: 'b', legendFontSize: 11, legendColor: HEX.slate, barGapWidthPct: 50, dataLabelFormatCode: '0;;;' })
-  const tr = [[pct(B.lebanonShare, 0) + ' → ' + pct(K.lebanonShare, 0), 'share of sessions from Lebanon'], [pct(B.mobileShare, 0) + ' → ' + pct(K.mobileShare, 0), 'share of sessions on mobile'], [String(K.sessions), `sessions in the campaign (${S.campaignPeriod})`]]
+  const tr = [[pct(B.lebanonShare, 0) + ' → ' + pct(K.lebanonShare, 0), 'share of sessions from Lebanon'], [pct(B.mobileShare, 0) + ' → ' + pct(K.mobileShare, 0), 'share of sessions on mobile'], [growth(sessWkB, sessWkC), `sessions per week (${S.campaignPeriod} vs launch)`]]
   tr.forEach(([b, l], i) => stat(s, 8.4, 1.55 + i * 1.4, 4.3, 1.25, b, l, { size: 26 }))
   card(s, 0.6, 5.8, 12.1, 0.95, C.background2)
   text(s, [{ text: 'Read-out: ', options: { bold: true, color: C.text2 } }, { text: 'total traffic held steady, but its quality changed: fewer foreign bot visits, more Lebanese visitors on phones. Weeks 2–3 dipped while posting slowed, and week 4 recovered once Reels went live.' }], { x: 0.85, y: 5.85, w: 11.6, h: 0.85, fontSize: 13, valign: 'middle' })
 
   // ===== 17. Results: sources =====
-  s = slide('STEP 5 · RESULTS · WHERE VISITS CAME FROM', 'Social and search visits grew about 3–6 times', 'Step 5 · Measure')
+  s = slide('STEP 5 · RESULTS · WHERE VISITS CAME FROM', `Social visits ${growth(socialBaseWk, socialCampWk)} and search visits ${growth(searchBaseWk, searchCampWk)} per week`, 'Step 5 · Measure')
   s.addChart(pres.charts.BAR, [
     { name: `Launch (${S.baselinePeriod})`, labels: ['Instagram + Facebook', 'Google + Bing search', 'Direct'], values: [socialBaseWk, searchBaseWk, perWeek(B.directSessions, B.days)].map((x) => +x.toFixed(1)) },
     { name: `Campaign (${S.campaignPeriod})`, labels: ['Instagram + Facebook', 'Google + Bing search', 'Direct'], values: [socialCampWk, searchCampWk, perWeek(K.directSessions, K.days)].map((x) => +x.toFixed(1)) },
@@ -446,95 +457,82 @@ function slide(step, title, section) {
   text(s, [{ text: 'Caveat: ', options: { bold: true, color: C.accent4 } }, { text: 'direct traffic stayed at ~116 per week. Much of it is likely links shared on WhatsApp and bio taps without UTM tags, so social’s true effect is understated.', options: { color: C.background1 } }], { x: 0.85, y: 5.95, w: 11.6, h: 0.75, fontSize: 13, valign: 'middle' })
 
   // ===== 18. Results: funnel & orders =====
-  s = slide('STEP 5 · RESULTS · FUNNEL & ORDERS', 'From 0 to the first real orders, with large baskets', 'Step 5 · Measure')
-  s.addChart(pres.charts.BAR, [{ name: 'Campaign funnel', labels: ['Sessions', 'Added to cart', 'Reached checkout', 'Orders placed', 'Delivered'], values: [K.sessions, K.cartSessions, K.checkoutSessions, K.orders, K.deliveredOrders] }], { ...chartBase, x: 0.6, y: 1.5, w: 5.4, h: 3.6, barDir: 'bar', title: `Purchase funnel (${S.campaignPeriod})`, chartColors: [HEX.leaf], catAxisOrientation: 'maxMin', dataLabelPosition: 'outEnd', barGapWidthPct: 50 })
+  s = slide('STEP 5 · RESULTS · WEBSITE FUNNEL', 'Website: from zero to the first orders, with large baskets', 'Step 5 · Measure')
+  s.addChart(pres.charts.BAR, [{ name: 'Campaign funnel', labels: ['Sessions', 'Added to cart', 'Reached checkout', 'Orders placed', 'Delivered'], values: [K.sessions, K.cartSessions, K.checkoutSessions, K.orders, K.deliveredOrders] }], { ...chartBase, x: 0.6, y: 1.5, w: 5.4, h: 3.6, barDir: 'bar', title: `Website purchase funnel (${S.campaignPeriod})`, chartColors: [HEX.leaf], catAxisOrientation: 'maxMin', dataLabelPosition: 'outEnd', barGapWidthPct: 50 })
   s.addTable([
-    hdrRow(['Order', 'Date', 'City', 'Basket', 'Total', 'Status']),
-    ...S.orders.map((o) => [o.id, o.date, o.city, `${o.items} items`, money(o.total), { text: o.status, options: { color: o.status === 'Delivered' ? HEX.leaf : HEX.red, bold: true } }]),
-  ], { ...tableOpts(6.3, 1.55, 6.4, [0.8, 0.85, 1.4, 1.05, 0.95, 1.35]), rowH: 0.45 })
-  stat(s, 6.3, 3.6, 2.0, 1.4, money(deliveredRevenue / K.deliveredOrders), 'average delivered order (plan: $45)', { size: 24 })
-  stat(s, 8.5, 3.6, 2.0, 1.4, pct(atcCamp), `add-to-cart (launch ${pct(atcBase)})`, { size: 24 })
-  stat(s, 10.7, 3.6, 2.0, 1.4, pct(crCamp, 2), 'conversion rate (target 1%)', { size: 24, fill: C.accent2 })
+    hdrRow(['Order', 'Date', 'City', 'Basket', 'Source', 'Status']),
+    ...S.orders.map((o) => [o.id, o.date, o.city, `${o.items} items`, o.source, { text: o.status, options: { color: o.status === 'Delivered' ? HEX.leaf : HEX.red, bold: true } }]),
+  ], { ...tableOpts(6.3, 1.55, 6.4, [0.75, 0.8, 1.3, 0.9, 1.45, 1.2]), rowH: 0.45 })
+  stat(s, 6.3, 3.6, 2.0, 1.4, basketX, 'larger basket than our planning assumption', { size: 26 })
+  stat(s, 8.5, 3.6, 2.0, 1.4, growth(atcBase, atcCamp), `add-to-cart rate (${pct(atcBase)} → ${pct(atcCamp)})`, { size: 26 })
+  stat(s, 10.7, 3.6, 2.0, 1.4, pct(crCamp, 2), 'website conversion rate (target 1%)', { size: 24, fill: C.accent2 })
   card(s, 0.6, 5.3, 12.1, 1.45, C.background2)
   text(s, [
     { text: 'Insights: ', options: { bold: true, color: C.text2 } },
-    { text: 'the $215 Beirut order came from a ChatGPT referral, so AI and search discovery already sell. The $524 Baalbek order was cancelled within 25 minutes, which shows the need for a confirmation call. Every order used Cash on Delivery, which confirms it matters as a trust signal.' },
+    { text: 'the largest delivered website order (7 items, Beirut) came from a ChatGPT referral, so AI and search discovery already sell. A large 3-item order from Baalbek was cancelled within 25 minutes, which shows the value of a confirmation call. Every website order used Cash on Delivery.' },
   ], { x: 0.85, y: 5.4, w: 11.6, h: 1.25, fontSize: 13 })
 
-  // ===== 19. Results: social & WhatsApp =====
-  s = slide('STEP 5 · RESULTS · SOCIAL MEDIA & WHATSAPP', 'Social builds trust; WhatsApp closes the sale', 'Step 5 · Measure')
-  const followerGrowth = has(SO.igFollowersStart) && has(SO.igFollowersEnd) ? `+${SO.igFollowersEnd - SO.igFollowersStart}` : TBD
-  const err = has(SO.engagements) && has(SO.reach) ? pct(SO.engagements / SO.reach) : TBD
-  const soc = [[show(SO.reach, (x) => x.toLocaleString('en-US')), 'reach (Lebanon)'], [err, 'engagement rate by reach'], [followerGrowth, 'Instagram followers'], [show(SO.linkClicks, (x) => x.toLocaleString('en-US')), 'link clicks'], [show(SO.reelViews, (x) => x.toLocaleString('en-US')), 'Reel views'], [String(K.instagramSessions + K.facebookSessions), 'social sessions on the site (Shopify)']]
-  text(s, 'Instagram & Facebook', { x: 0.6, y: 1.5, w: 6, h: 0.4, fontSize: 16, bold: true, color: C.text2 })
-  soc.forEach(([b, l], i) => stat(s, 0.6 + (i % 3) * 2.05, 1.95 + Math.floor(i / 3) * 1.45, 1.9, 1.3, b, l, { size: 22 }))
-  text(s, 'WhatsApp Business', { x: 6.9, y: 1.5, w: 6, h: 0.4, fontSize: 16, bold: true, color: C.text2 })
-  const wa = [[show(W.inquiries), 'inquiries'], [show(W.liveVideoRequests), '“LIVE” video requests'], [show(W.orders), 'WhatsApp orders'], [show(W.revenue, money), 'WhatsApp revenue'], [show(W.medianReplyMinutes, (x) => `${x} min`), 'median reply time'], [show(W.cities), 'cities served']]
-  wa.forEach(([b, l], i) => stat(s, 6.9 + (i % 3) * 1.95, 1.95 + Math.floor(i / 3) * 1.45, 1.8, 1.3, b, l, { size: 20, fill: i === 2 || i === 3 ? C.accent2 : C.text2 }))
-  card(s, 0.6, 5.0, 12.1, 1.75, C.background2)
-  text(s, [
-    { text: 'Top posts: ', options: { bold: true, color: C.text2 } },
-    ...SO.topPosts.flatMap((p, i) => [val(p.name), { text: ' · reach ' }, val(p.reach, (x) => x.toLocaleString('en-US')), { text: ' · engagements ' }, val(p.engagements, (x) => x.toLocaleString('en-US')), { text: i < SO.topPosts.length - 1 ? '   |   ' : '' }]),
-    { text: '', options: { breakLine: true } },
-    { text: 'Read-out: ', options: { bold: true, color: C.text2 } },
-    { text: 'Instagram sent 65 visits and 3 carts but no direct web order, while buyers asked questions on WhatsApp first. Social builds trust and WhatsApp converts, so both must be measured together.' },
-  ], { x: 0.85, y: 5.12, w: 11.6, h: 1.55, fontSize: 12, paraSpaceAfter: 6 })
+  // ===== 19. Results: orders by channel =====
+  s = slide('STEP 5 · RESULTS · ORDERS BY CHANNEL', `Videos build trust; WhatsApp closes ${pct(waShare, 0)} of orders`, 'Step 5 · Measure')
+  s.addChart(pres.charts.DOUGHNUT, [{ name: 'Orders', labels: ['WhatsApp', 'Website'], values: [W.orders, K.orders] }], {
+    x: 0.6, y: 1.5, w: 4.2, h: 4.1, holeSize: 60, showTitle: true, title: `Orders by channel (${totalOrders} total)`, titleFontSize: 13, titleColor: HEX.green, titleFontFace: '+mn-lt',
+    chartColors: [HEX.leaf, HEX.red], showValue: true, showPercent: false, showLegend: true, legendPos: 'b', legendFontSize: 12, legendFontFace: '+mn-lt', legendColor: HEX.slate, dataLabelColor: HEX.white, dataLabelFontSize: 14, dataLabelFontFace: '+mn-lt',
+  })
+  const waWk = perWeek(W.orders, W.periodDays)
+  const webWk = perWeek(K.orders, K.days)
+  s.addChart(pres.charts.BAR, [{ name: 'Orders per week', labels: ['WhatsApp', 'Website'], values: [+waWk.toFixed(1), +webWk.toFixed(1)] }], { ...chartBase, x: 5.0, y: 1.5, w: 3.6, h: 4.1, barDir: 'col', title: 'Average orders per week', chartColors: [HEX.leaf], dataLabelPosition: 'outEnd', barGapWidthPct: 60, dataLabelFormatCode: '0.0' })
+  const tl = [[String(W.orders), `WhatsApp orders in ${W.periodDays} days`, C.accent2], [pct(waShare, 0), 'of all orders came through WhatsApp', C.text2], [String(VIDEOS), 'short videos published', C.text2], [String((SO.platforms || []).length), `platforms: ${PLATFORMS}`, C.text2]]
+  tl.forEach(([b, l, f], i) => stat(s, 8.9 + (i % 2) * 1.95, 1.55 + Math.floor(i / 2) * 2.0, 1.8, 1.8, b, l, { fill: f, size: 28 }))
+  card(s, 0.6, 5.85, 12.1, 0.9, C.background2)
+  text(s, [{ text: 'Read-out: ', options: { bold: true, color: C.text2 } }, { text: `people watch the videos, then message us to ask, see the product live and order. WhatsApp averages about ${waWk.toFixed(0)} orders a week against ${webWk.toFixed(1)} on the website, so the campaign must be judged on both channels together.` }], { x: 0.85, y: 5.9, w: 11.6, h: 0.8, fontSize: 13, valign: 'middle' })
 
   // ===== 20. Scorecard =====
   s = slide('STEP 5 · KPI SCORECARD', 'Target vs actual: honest results after four weeks', 'Step 5 · Measure')
   const status = (ok, partial) => ({ text: ok ? '● Met' : partial ? '◐ Improved' : '○ Not met', options: { bold: true, color: ok ? HEX.leaf : partial ? HEX.amber : HEX.red } })
-  const pending = { text: '… Add data', options: { color: HEX.amber, italic: true } }
-  const cacVal = has(AD.spend) && totalOrders > 0 ? AD.spend / totalOrders : null
-  s.addTable([
+  const ratio = (a, t) => ` (${Math.round((a / t) * 100)}% of target)`
+  const rowsSc = [
     hdrRow(['KPI', 'Launch baseline', '4-week target', 'Actual', 'Status']),
-    ['Online orders', '0', '10', `${K.orders} (${K.deliveredOrders} delivered)`, status(false, true)],
-    ['WhatsApp-assisted orders', '—', '8', cell(W.orders), has(W.orders) ? status(W.orders >= 8, W.orders > 0) : pending],
-    ['Sessions from Lebanon', `${B.lebanonSessions} / 15 days`, '1,000', String(K.lebanonSessions), status(false, true)],
-    ['Add-to-cart rate', pct(atcBase), '4%', pct(atcCamp), status(atcCamp >= 0.04, atcCamp > atcBase)],
-    ['Conversion rate', '0%', '1%', pct(crCamp, 2), status(crCamp >= 0.01, crCamp > 0)],
-    ['Social visits per week', socialBaseWk.toFixed(1), '—', socialCampWk.toFixed(1), status(true)],
-    ['Reach (Lebanon)', '—', '25,000', cell(SO.reach, (x) => x.toLocaleString('en-US')), has(SO.reach) ? status(SO.reach >= 25000, SO.reach > 0) : pending],
-    ['Engagement rate (ERR)', '—', '≥ 3%', err === TBD ? cell(null) : err, has(SO.engagements) && has(SO.reach) ? status(SO.engagements / SO.reach >= 0.03, true) : pending],
-    ['CAC', '—', '≤ $20', cacVal === null ? cell(null) : money(cacVal), cacVal === null ? pending : status(cacVal <= 20, false)],
-    ['Google reviews', '0', '10', cell(D.gbp.reviews), has(D.gbp.reviews) ? status(D.gbp.reviews >= 10, D.gbp.reviews > 0) : pending],
-  ], { ...tableOpts(0.6, 1.5, 12.1, [3.0, 2.2, 1.9, 2.9, 2.1]), rowH: 0.42, fontSize: 12 })
-  text(s, 'Targets were set as 4-week test targets before launch, not forecasts. Orders and traffic missed target; quality (Lebanon, mobile, search, social) and basket size beat expectations.', { x: 0.6, y: 6.35, w: 12.1, h: 0.45, fontSize: 12, color: C.accent5 })
+    ['Total orders (WhatsApp + website)', '0', '18', String(totalOrders) + ratio(totalOrders, 18), status(totalOrders >= 18)],
+    ['WhatsApp-assisted orders', '0', '8', `${W.orders} in ${W.periodDays} days` + ratio(W.orders, 8), status(W.orders >= 8)],
+    ['Website orders', '0', '10', `${K.orders} (${K.deliveredOrders} delivered)`, status(false, true)],
+    ['Short videos published', '0', '3 Reels', `${VIDEOS} on ${(SO.platforms || []).length} platforms`, status(VIDEOS >= 3)],
+    ['Website visits from Lebanon / week', lebWkB.toFixed(0), '250', lebWkC.toFixed(0) + ` (${growth(lebWkB, lebWkC)})`, status(false, true)],
+    ['Social visits / week', socialBaseWk.toFixed(1), 'grow', socialCampWk.toFixed(1) + ` (${growth(socialBaseWk, socialCampWk)})`, status(true)],
+    ['Add-to-cart rate', pct(atcBase), '4%', pct(atcCamp) + ` (${growth(atcBase, atcCamp)})`, status(atcCamp >= 0.04, atcCamp > atcBase)],
+    ['Website conversion rate', '0%', '1%', pct(crCamp, 2), status(crCamp >= 0.01, crCamp > 0)],
+  ]
+  if (has(SO.reach)) rowsSc.push(['Reach (Lebanon)', '—', '25,000', SO.reach.toLocaleString('en-US'), status(SO.reach >= 25000, true)])
+  if (has(D.gbp.reviews)) rowsSc.push(['Google reviews', '0', '10', String(D.gbp.reviews), status(D.gbp.reviews >= 10, D.gbp.reviews > 0)])
+  s.addTable(rowsSc, { ...tableOpts(0.6, 1.5, 12.1, [3.4, 2.0, 1.7, 3.0, 2.0]), rowH: 0.48, fontSize: 12 })
+  text(s, 'Targets were set as 4-week test targets before launch, not forecasts. WhatsApp and video output beat target; the website itself converts below target, which is the main thing to fix next.', { x: 0.6, y: 6.35, w: 12.1, h: 0.45, fontSize: 12, color: C.accent5 })
 
-  // ===== 21. ROI =====
-  s = slide('STEP 5 · BUDGET, ROI & FEASIBILITY', 'Unit economics: large baskets make the model work', 'Step 5 · Measure')
-  const m = D.assumptions.grossMargin
-  const gp = totalRevenue * m
-  const spend = has(AD.spend) ? AD.spend : null
-  const roas = spend ? totalRevenue / spend : null
-  const contrib = spend !== null ? gp - spend : null
+  // ===== 21. Growth & feasibility =====
+  s = slide('STEP 5 · GROWTH, BUDGET & FEASIBILITY', 'Website growth vs launch, at almost no running cost', 'Step 5 · Measure')
+  const gItems = [
+    ['Sessions / week', sessWkB, sessWkC],
+    ['Visits from Lebanon / week', lebWkB, lebWkC],
+    ['Add-to-cart rate', atcBase, atcCamp],
+    ['Social visits / week', socialBaseWk, socialCampWk],
+    ['Search visits / week', searchBaseWk, searchCampWk],
+  ]
+  s.addChart(pres.charts.BAR, [{ name: 'Growth vs launch', labels: gItems.map((g) => g[0]), values: gItems.map((g) => Math.round((g[2] / g[1] - 1) * 100)) }], { ...chartBase, x: 0.6, y: 1.5, w: 7.4, h: 4.4, barDir: 'bar', title: `Growth vs launch period (%), per week · ${S.campaignPeriod} vs ${S.baselinePeriod}`, chartColors: [HEX.leaf], catAxisOrientation: 'maxMin', dataLabelPosition: 'outEnd', dataLabelFormatCode: '+0"%"', barGapWidthPct: 45 })
+  stat(s, 8.4, 1.55, 4.3, 1.3, `${pct(B.lebanonShare, 0)} → ${pct(K.lebanonShare, 0)}`, 'share of visitors from Lebanon (+26 points)')
+  stat(s, 8.4, 2.95, 4.3, 1.3, `${pct(B.mobileShare, 0)} → ${pct(K.mobileShare, 0)}`, 'share of visitors on mobile (+25 points)')
+  card(s, 8.4, 4.4, 4.3, 2.35, C.background2)
+  text(s, [{ text: 'Feasibility: ', options: { bold: true, color: C.text2 } }, { text: `running costs stay near zero: Shopify Basic, videos filmed in store on a phone, WhatsApp Business and free posting on ${PLATFORMS}. Baskets are ${basketX} our planning assumption, so a $200 monthly ad test breaks even with about 5 orders a month.` }], { x: 8.6, y: 4.5, w: 3.9, h: 2.15, fontSize: 12 })
+  text(s, 'Percent change in weekly averages; the add-to-cart rate is compared as a rate. Revenue amounts are not shown at the client’s request.', { x: 0.6, y: 6.05, w: 7.4, h: 0.6, fontSize: 11, color: C.accent5 })
+
   const aov = deliveredRevenue / K.deliveredOrders
-  const breakeven = spend ? Math.ceil(spend / (aov * m)) : null
-  s.addTable([
-    hdrRow(['Line', 'Value', 'How it is calculated']),
-    ['Delivered online revenue', money(deliveredRevenue), `${K.deliveredOrders} delivered orders (Shopify)`],
-    ['WhatsApp revenue', cell(W.revenue, money), 'Logged WhatsApp orders'],
-    ['Total campaign revenue', has(W.revenue) ? money(totalRevenue) : { text: `${money(deliveredRevenue)} + WhatsApp`, options: { color: HEX.amber } }, 'Online + WhatsApp, each order counted once'],
-    [`Gross profit at ${pct(m, 0)} margin`, money(gp), `Revenue × margin (${D.assumptions.marginNote})`],
-    ['Ad spend', cell(spend, money), 'Ads Manager'],
-    ['ROAS', roas ? roas.toFixed(1) + '×' : cell(null), 'Revenue ÷ ad spend'],
-    ['CAC', cacVal !== null ? money(cacVal) : cell(null), 'Ad spend ÷ new customers'],
-    ['Campaign contribution', contrib !== null ? money(contrib) : cell(null), 'Gross profit − ad spend (student work costed at $0)'],
-  ], { ...tableOpts(0.6, 1.5, 7.6, [2.6, 1.7, 3.3]), rowH: 0.46 })
-  stat(s, 8.5, 1.55, 4.2, 1.35, money(aov), 'average delivered order: 3× the $45 planning assumption')
-  stat(s, 8.5, 3.05, 4.2, 1.35, breakeven ? `${breakeven} orders` : `${Math.ceil(200 / (aov * m))} orders`, breakeven ? 'to break even on the actual ad spend' : 'to break even on a $200 budget at this basket size', { fill: C.accent2 })
-  card(s, 8.5, 4.55, 4.2, 2.2, C.background2)
-  text(s, [{ text: 'Feasibility: ', options: { bold: true, color: C.text2 } }, { text: 'running costs stay near zero (Shopify Basic, organic content filmed in store, WhatsApp). At an average order of ~$134, a $200 monthly ad budget breaks even with about 5 orders a month, which is realistic given the first 4 weeks.' }], { x: 8.7, y: 4.65, w: 3.8, h: 2.0, fontSize: 12 })
-
   // ===== 22. Learnings =====
   pres.addSection({ title: 'Recommendations' })
   s = slide('PERFORMANCE OPTIMISATION', 'What we learned in four weeks', 'Recommendations')
   const learn = [
-    [fa.FaShoppingBasket, 'Baskets are big', `Average delivered order ${money(aov)}, 3× plan. Buyers renovate whole rooms: promote bundles and plumber packs.`],
+    [fa.FaShoppingBasket, 'Baskets are big', `Delivered website baskets are ${basketX} our planning assumption. Buyers renovate whole rooms: promote bundles and plumber packs.`],
     [fa.FaMapMarkedAlt, 'Demand is nationwide', 'Orders from Beirut, Metn and Bekaa. Delivery all over Lebanon is a real selling point, not a slogan.'],
     [fa.FaSearch, 'Search & AI sell', 'Search visits about 6× per week, and the biggest delivered order came via ChatGPT. Product titles and URLs now matter.'],
-    [fa.FaComments, 'Social → WhatsApp → sale', 'Instagram drove visits and questions, not direct checkouts. Measure social and WhatsApp as one funnel.'],
+    [fa.FaComments, 'Video → WhatsApp → sale', `${W.orders} of ${totalOrders} orders (${pct(waShare, 0)}) came through WhatsApp. Videos create questions; WhatsApp answers and sells.`],
     [fa.FaMobileAlt, 'Mobile is the store', '71% of visits on mobile. Checkout friction (required email, pre-ticked marketing box, “<50$” label) costs sales.'],
-    [fa.FaPhoneAlt, 'Confirm every order', 'A $524 order was cancelled within 25 minutes. A quick confirmation call or WhatsApp message protects big COD orders.'],
+    [fa.FaPhoneAlt, 'Confirm every order', 'A large website order was cancelled within 25 minutes. A quick confirmation call or WhatsApp message protects big COD orders.'],
   ]
   for (let i = 0; i < learn.length; i++) {
     const [ic, h, d] = learn[i]
@@ -550,7 +548,7 @@ function slide(step, title, section) {
   s = slide('RECOMMENDATIONS', 'Next 90 days: convert the attention we built', 'Recommendations')
   const recs = [
     ['Now · Dec', 'Fix & track', ['Checkout: phone-only contact, untick marketing, rename delivery to “Standard delivery”', 'Hero button “Shop now”; real photos of top 20 products', 'UTM on every link; GA4 + Meta Pixel events; confirmation call for orders over $100']],
-    ['Jan', 'Scale what worked', ['Weekly Reel (fit guides, live demos); answer top WhatsApp questions as posts', '$200/month Meta ads to the best creative, retarget site visitors', 'Bundles: “complete bathroom” and plumber packs']],
+    ['Jan', 'Scale what worked', ['3 videos a week on TikTok, Instagram and Facebook; answer top WhatsApp questions as videos', '$200/month Meta ads to the best creative, retarget site visitors', 'Bundles: “complete bathroom” and plumber packs']],
     ['Feb', 'Own search & proof', ['Descriptive product titles and URLs for Google and AI search', 'Google profile: weekly posts, 10+ genuine reviews', 'Monthly report: orders by channel, CAC, ROAS, repeat buyers']],
   ]
   recs.forEach(([when, h, items], i) => {
@@ -602,7 +600,7 @@ function slide(step, title, section) {
   s = pres.addSlide({ masterName: 'TITLE_DARK', sectionTitle: 'Recommendations' })
   s.addText('Thank you', { placeholder: 'title' })
   s.addText('Questions & discussion', { placeholder: 'body' })
-  const close = [[String(K.orders), 'online orders, from 0'], [money(aov), 'average delivered order'], [`×${(socialCampWk / socialBaseWk).toFixed(1)}`, 'social visits per week'], [`×${(searchCampWk / searchBaseWk).toFixed(1)}`, 'search visits per week']]
+  const close = [[String(totalOrders), 'orders, from 0'], [growth(lebWkB, lebWkC), 'visits from Lebanon / week'], [growth(socialBaseWk, socialCampWk), 'social visits / week'], [String(VIDEOS), 'videos on 3 platforms']]
   close.forEach(([b, l], i) => stat(s, 8.2 + (i % 2) * 2.3, 1.2 + Math.floor(i / 2) * 1.9, 2.1, 1.7, b, l, { fill: i === 0 ? C.accent2 : C.accent1, size: 32 }))
   text(s, 'twainyplast.com · WhatsApp 76 742 274 · @twainy_plast_', { x: 0.6, y: 6.2, w: 7.4, h: 0.4, fontSize: 16, color: C.accent4 })
 

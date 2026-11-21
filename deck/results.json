@@ -1,43 +1,173 @@
 {
   "_readme": "Edit this file, then run `node deck/build-final.cjs`. Any value left as null appears in the deck as an amber [to add] tag. Shopify values were pulled from Shopify Analytics on Nov 21, 2026.",
-
   "team": [
-    { "role": "Engagement lead", "name": null, "owns": "Client relationship, consent, timeline, final deck" },
-    { "role": "Research & insights", "name": null, "owns": "Competitor audit, interviews, personas, social listening" },
-    { "role": "Brand & creative", "name": null, "owns": "Identity, profile set-up, posts and carousels" },
-    { "role": "Video producer", "name": null, "owns": "Reels: storyboards, filming, editing" },
-    { "role": "Media & analytics", "name": null, "owns": "Tracking, paid test, KPI dashboard, ROI model" }
+    {
+      "role": "Engagement lead",
+      "name": null,
+      "owns": "Client relationship, consent, timeline, final deck"
+    },
+    {
+      "role": "Research & insights",
+      "name": null,
+      "owns": "Competitor audit, interviews, personas, social listening"
+    },
+    {
+      "role": "Brand & creative",
+      "name": null,
+      "owns": "Identity, profile set-up, posts and carousels"
+    },
+    {
+      "role": "Video producer",
+      "name": null,
+      "owns": "Reels: storyboards, filming, editing"
+    },
+    {
+      "role": "Media & analytics",
+      "name": null,
+      "owns": "Tracking, paid test, KPI dashboard, ROI model"
+    }
   ],
-
   "shopify": {
     "baselinePeriod": "Oct 7–21",
     "campaignPeriod": "Oct 26 – Nov 21",
-    "baseline": { "sessions": 270, "lebanonSessions": 120, "cartSessions": 3, "checkoutSessions": 1, "orders": 0, "mobileShare": 0.46, "lebanonShare": 0.44, "socialSessions": 16, "searchSessions": 6, "directSessions": 247, "days": 15 },
-    "campaign": { "sessions": 593, "lebanonSessions": 418, "cartSessions": 18, "checkoutSessions": 10, "completedCheckouts": 5, "orders": 3, "deliveredOrders": 2, "cancelledOrders": 1, "mobileShare": 0.71, "lebanonShare": 0.70, "instagramSessions": 65, "facebookSessions": 13, "googleSessions": 59, "bingSessions": 7, "directSessions": 447, "days": 27 },
+    "baseline": {
+      "sessions": 270,
+      "lebanonSessions": 120,
+      "cartSessions": 3,
+      "checkoutSessions": 1,
+      "orders": 0,
+      "mobileShare": 0.46,
+      "lebanonShare": 0.44,
+      "socialSessions": 16,
+      "searchSessions": 6,
+      "directSessions": 247,
+      "days": 15
+    },
+    "campaign": {
+      "sessions": 593,
+      "lebanonSessions": 418,
+      "cartSessions": 18,
+      "checkoutSessions": 10,
+      "completedCheckouts": 5,
+      "orders": 3,
+      "deliveredOrders": 2,
+      "cancelledOrders": 1,
+      "mobileShare": 0.71,
+      "lebanonShare": 0.7,
+      "instagramSessions": 65,
+      "facebookSessions": 13,
+      "googleSessions": 59,
+      "bingSessions": 7,
+      "directSessions": 447,
+      "days": 27
+    },
     "weekly": [
-      { "week": "Oct 12", "sessions": 185, "lebanon": 75, "social": 11, "phase": "launch" },
-      { "week": "Oct 19", "sessions": 181, "lebanon": 98, "social": 6, "phase": "launch" },
-      { "week": "Oct 26", "sessions": 184, "lebanon": 117, "social": 13, "phase": "campaign" },
-      { "week": "Nov 2", "sessions": 113, "lebanon": 95, "social": 14, "phase": "campaign" },
-      { "week": "Nov 9", "sessions": 110, "lebanon": 88, "social": 13, "phase": "campaign" },
-      { "week": "Nov 16", "sessions": 186, "lebanon": 118, "social": 38, "phase": "campaign" }
+      {
+        "week": "Oct 12",
+        "sessions": 185,
+        "lebanon": 75,
+        "social": 11,
+        "phase": "launch"
+      },
+      {
+        "week": "Oct 19",
+        "sessions": 181,
+        "lebanon": 98,
+        "social": 6,
+        "phase": "launch"
+      },
+      {
+        "week": "Oct 26",
+        "sessions": 184,
+        "lebanon": 117,
+        "social": 13,
+        "phase": "campaign"
+      },
+      {
+        "week": "Nov 2",
+        "sessions": 113,
+        "lebanon": 95,
+        "social": 14,
+        "phase": "campaign"
+      },
+      {
+        "week": "Nov 9",
+        "sessions": 110,
+        "lebanon": 88,
+        "social": 13,
+        "phase": "campaign"
+      },
+      {
+        "week": "Nov 16",
+        "sessions": 186,
+        "lebanon": 118,
+        "social": 38,
+        "phase": "campaign"
+      }
     ],
     "orders": [
-      { "id": "#1003", "date": "Oct 27", "city": "Beirut", "items": 7, "total": 215, "status": "Delivered", "source": "ChatGPT referral", "basket": "2× Brax Tall Neck, 2× Brax Kore, 2× Ailar Vitas, Sahand Drinking" },
-      { "id": "#1004", "date": "Oct 27", "city": "Baalbek", "items": 3, "total": 524, "status": "Cancelled", "source": "Direct", "basket": "Flora freestanding basin, Gunmetal rain shower set, pop-up drain" },
-      { "id": "#1005", "date": "Nov 7", "city": "Fanar (Metn)", "items": 2, "total": 53, "status": "Delivered", "source": "Direct", "basket": "Stainless floor drain, underfloor shower drain (+$3 delivery)" }
+      {
+        "id": "#1003",
+        "date": "Oct 27",
+        "city": "Beirut",
+        "items": 7,
+        "total": 215,
+        "status": "Delivered",
+        "source": "ChatGPT referral",
+        "basket": "2× Brax Tall Neck, 2× Brax Kore, 2× Ailar Vitas, Sahand Drinking"
+      },
+      {
+        "id": "#1004",
+        "date": "Oct 27",
+        "city": "Baalbek",
+        "items": 3,
+        "total": 524,
+        "status": "Cancelled",
+        "source": "Direct",
+        "basket": "Flora freestanding basin, Gunmetal rain shower set, pop-up drain"
+      },
+      {
+        "id": "#1005",
+        "date": "Nov 7",
+        "city": "Fanar (Metn)",
+        "items": 2,
+        "total": 53,
+        "status": "Delivered",
+        "source": "Direct",
+        "basket": "Stainless floor drain, underfloor shower drain (+$3 delivery)"
+      }
     ],
     "topLandingPages": [
-      { "page": "Homepage", "sessions": 356 },
-      { "page": "Bidet faucets", "sessions": 19 },
-      { "page": "Vanities", "sessions": 16 },
-      { "page": "Faucets", "sessions": 15 },
-      { "page": "Mirrors", "sessions": 15 },
-      { "page": "Rain showers", "sessions": 14 },
-      { "page": "Pumps", "sessions": 13 }
+      {
+        "page": "Homepage",
+        "sessions": 356
+      },
+      {
+        "page": "Bidet faucets",
+        "sessions": 19
+      },
+      {
+        "page": "Vanities",
+        "sessions": 16
+      },
+      {
+        "page": "Faucets",
+        "sessions": 15
+      },
+      {
+        "page": "Mirrors",
+        "sessions": 15
+      },
+      {
+        "page": "Rain showers",
+        "sessions": 14
+      },
+      {
+        "page": "Pumps",
+        "sessions": 13
+      }
     ]
   },
-
   "social": {
     "postsPublished": null,
     "reelsPublished": null,
@@ -52,44 +182,86 @@
     "linkClicks": null,
     "reelViews": null,
     "topPosts": [
-      { "name": null, "reach": null, "engagements": null },
-      { "name": null, "reach": null, "engagements": null },
-      { "name": null, "reach": null, "engagements": null }
+      {
+        "name": null,
+        "reach": null,
+        "engagements": null
+      },
+      {
+        "name": null,
+        "reach": null,
+        "engagements": null
+      },
+      {
+        "name": null,
+        "reach": null,
+        "engagements": null
+      }
+    ],
+    "videosPublished": 18,
+    "platforms": [
+      "TikTok",
+      "Instagram",
+      "Facebook"
     ]
   },
-
   "whatsapp": {
     "inquiries": null,
     "liveVideoRequests": null,
-    "orders": null,
+    "orders": 20,
     "revenue": null,
     "medianReplyMinutes": null,
     "topProducts": null,
-    "cities": null
+    "cities": null,
+    "periodDays": 14
   },
-
   "ads": {
     "spend": null,
     "reach": null,
     "linkClicks": null,
     "ctr": null
   },
-
   "gbp": {
     "views": null,
     "calls": null,
     "directions": null,
     "reviews": null
   },
-
   "competitors": [
-    { "name": "Builders Sal", "type": "Direct", "followers": null, "postsPer30d": null, "engagementRate": null, "pricesShown": null, "notes": null },
-    { "name": "Arcom Group", "type": "Direct", "followers": null, "postsPer30d": null, "engagementRate": null, "pricesShown": null, "notes": null },
-    { "name": "Chromotech", "type": "Direct (trade)", "followers": null, "postsPer30d": null, "engagementRate": null, "pricesShown": null, "notes": null }
+    {
+      "name": "Builders Sal",
+      "type": "Direct",
+      "followers": null,
+      "postsPer30d": null,
+      "engagementRate": null,
+      "pricesShown": null,
+      "notes": null
+    },
+    {
+      "name": "Arcom Group",
+      "type": "Direct",
+      "followers": null,
+      "postsPer30d": null,
+      "engagementRate": null,
+      "pricesShown": null,
+      "notes": null
+    },
+    {
+      "name": "Chromotech",
+      "type": "Direct (trade)",
+      "followers": null,
+      "postsPer30d": null,
+      "engagementRate": null,
+      "pricesShown": null,
+      "notes": null
+    }
   ],
-
   "assumptions": {
     "grossMargin": 0.3,
     "marginNote": "Owner to confirm"
+  },
+  "display": {
+    "showRevenue": false,
+    "_note": "Revenue amounts are hidden by request; growth is shown in percentages."
   }
 }
