@@ -56,9 +56,15 @@ pres.company = 'LAU AKSOB MBA'
 pres.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace }
 const C = pres.SchemeColor
 
-pres.defineSlideMaster({ title: 'BLANK_DARK', background: { color: HEX.green }, objects: [] })
+const ONLY = process.env.ONLY // e.g. ONLY=title or ONLY=client
+const scratch = new pptxgen()
+scratch.layout = 'LAYOUT_WIDE'
+const deckFor = (id) => (!ONLY || ONLY === id ? pres : scratch)
+const addSection = (o) => { if (!ONLY) pres.addSection(o) }
+const masters = (p) => {
+p.defineSlideMaster({ title: 'BLANK_DARK', background: { color: HEX.green }, objects: [] })
 const contentMaster = (title, bg) =>
-  pres.defineSlideMaster({
+  p.defineSlideMaster({
     title,
     background: { color: bg },
     objects: [
@@ -70,6 +76,9 @@ const contentMaster = (title, bg) =>
   })
 contentMaster('CONTENT', HEX.white)
 contentMaster('DASHBOARD', HEX.page)
+}
+masters(pres)
+masters(scratch)
 
 // ---------- helpers ----------
 async function icon(Comp, hex) {
@@ -124,8 +133,10 @@ const tbl = (x, y, w, colW, extra = {}) => ({ x, y, w, colW, fontSize: 11, color
 const tbd = (x, f) => (has(x) ? (f ? f(x) : String(x)) : { text: TBD, options: { color: HEX.amber, italic: true } })
 const bullets = (arr, o = {}) => arr.map((t, i) => ({ text: t, options: { bullet: { indent: 14 }, breakLine: i < arr.length - 1, ...o } }))
 
+const SLIDE_IDS = { 'THE CLIENT': 'client', 'OUR BRAND AGENCIES': 'brands', 'EXECUTIVE SUMMARY': 'summary', 'THE OPPORTUNITY': 'opportunity', 'THE SOLUTION': 'solution' }
 function slide(master, section, kicker, title) {
-  const s = pres.addSlide({ masterName: master, sectionTitle: section })
+  const id = SLIDE_IDS[kicker] || kicker.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+  const s = deckFor(id).addSlide(ONLY ? { masterName: master } : { masterName: master, sectionTitle: section })
   s.addText(kicker, { placeholder: 'kicker' })
   s.addText(title, { placeholder: 'title' })
   return s
@@ -133,8 +144,8 @@ function slide(master, section, kicker, title) {
 
 ;(async () => {
   // ================= 1. TITLE =================
-  pres.addSection({ title: 'Introduction' })
-  let s = pres.addSlide({ masterName: 'BLANK_DARK', sectionTitle: 'Introduction' })
+  addSection({ title: 'Introduction' })
+  let s = deckFor('title').addSlide(ONLY ? { masterName: 'BLANK_DARK' } : { masterName: 'BLANK_DARK', sectionTitle: 'Introduction' })
   // Full-bleed homepage screenshot with the title written on top (no split panel)
   s.addImage({ path: A('site-home-wide.jpg'), x: 0, y: 0, w: 13.333, h: 7.5, sizing: { type: 'cover', w: 13.333, h: 7.5 }, altText: 'twainyplast.com homepage' })
   s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 13.333, h: 7.5, fill: { color: '0F2A18', transparency: 78 }, line: { color: '0F2A18', width: 0 } })
@@ -150,12 +161,6 @@ function slide(master, section, kicker, title) {
     { text: 'November 26, 2026', options: { breakLine: true } },
     names.length ? { text: names.join(' · ') } : { text: 'Team: [names]', options: { color: 'F2B66B' } },
   ], { x: 9.5, y: 5.75, w: 3.2, h: 1.2, fontSize: 13, color: 'E3EFE6', align: 'right' })
-  if (process.env.TITLE_ONLY) {
-    await pres.writeFile({ fileName: OUT })
-    if (process.env.APPLY_THEME) await require(process.env.APPLY_THEME).applyTheme(OUT, THEME)
-    console.log('wrote title slide only', OUT)
-    return
-  }
   s.addNotes('Introduce Twainy Plast and the question we tackled: how to turn a brand-new website into real orders through social media.')
 
   // ================= 2. EXECUTIVE DASHBOARD =================
@@ -176,29 +181,61 @@ function slide(master, section, kicker, title) {
   s.addNotes('Headline numbers. Growth is per week, campaign (Oct 26 – Nov 21) vs launch (Oct 7–21). Revenue is not shown at the client’s request.')
 
   // ================= 3. WHO IS TWAINY PLAST =================
-  s = slide('CONTENT', 'Introduction', 'THE CLIENT', 'Twainy Plast: engineering-led plumbing and sanitary supply since 1987')
+  s = slide('DASHBOARD', 'Introduction', 'THE CLIENT', 'Twainy Plast: engineering-led plumbing and sanitary supply since 1987')
+  // fact band: four big facts on one dark strip
+  card(s, 0.6, 1.5, 12.1, 1.55, C.text2)
   const facts = [
-    [fa.FaHistory, 'Since 1987', 'Leadership has worked in plumbing and sanitary supply for almost four decades.'],
-    [fa.FaHandshake, '5+ brand agencies', 'Authorised agent for Lebanese and international manufacturers.'],
-    [fa.FaFlag, 'Made in Lebanon', 'Core mission: build trust in Lebanese products alongside certified imports.'],
-    [fa.FaMapMarkerAlt, 'Qsarnaba, Bekaa', 'Family-run store and warehouse, now delivering all over Lebanon.'],
+    [fa.FaHistory, '1987', 'almost four decades in plumbing & sanitary supply'],
+    [fa.FaHandshake, '4+', 'authorised Lebanese & international brand agencies'],
+    [fa.FaFlag, 'Made in Lebanon', 'core mission, alongside certified imports'],
+    [fa.FaMapMarkerAlt, 'Qsarnaba', 'Bekaa · family store & warehouse, delivering all over Lebanon'],
   ]
   for (let i = 0; i < facts.length; i++) {
-    const [ic, h, d] = facts[i]
-    const x = 0.6 + i * 3.05
-    card(s, x, 1.6, 2.85, 2.6, C.background2, false)
-    await badge(s, ic, x + 0.25, 1.85, 0.6)
-    text(s, h, { x: x + 0.25, y: 2.6, w: 2.4, h: 0.45, fontSize: 19, bold: true, color: C.text2 })
-    text(s, d, { x: x + 0.25, y: 3.08, w: 2.4, h: 1.0, fontSize: 12, color: C.accent5 })
+    const [ic, v, l] = facts[i]
+    const x = 0.6 + i * 3.025
+    if (i) s.addShape(pres.shapes.LINE, { x, y: 1.8, w: 0, h: 0.95, line: { color: '3E6B4C', width: 1 } })
+    await badge(s, ic, x + 0.3, 1.72, 0.48, i === 2 ? C.accent2 : C.accent1)
+    text(s, v, { x: x + 0.9, y: 1.66, w: 2.1, h: 0.62, fontSize: v.length > 10 ? 18 : v.length > 6 ? 24 : 34, bold: true, color: C.background1, valign: 'middle' })
+    text(s, l, { x: x + 0.3, y: 2.38, w: 2.6, h: 0.55, fontSize: 10.5, color: C.accent4 })
   }
-  text(s, 'Two businesses under one roof', { x: 0.6, y: 4.5, w: 12, h: 0.35, fontSize: 15, bold: true, color: C.text2 })
-  card(s, 0.6, 4.95, 5.95, 1.8, C.background1)
-  await badge(s, fa.FaTools, 0.85, 5.2, 0.55, C.text2)
-  text(s, [{ text: 'Plumbing systems', options: { bold: true, fontSize: 15, color: C.text2, breakLine: true } }, { text: 'PPR, PVC, PVC-U and HDPE pipes and fittings for plumbers and contractors, from 4 brand agencies.', options: { color: C.accent5 } }], { x: 1.6, y: 5.2, w: 4.75, h: 1.4, fontSize: 12 })
-  card(s, 6.75, 4.95, 5.95, 1.8, C.background1)
-  await badge(s, fa.FaBath, 7.0, 5.2, 0.55, C.accent2)
-  text(s, [{ text: 'Bathroom sanitary ware', options: { bold: true, fontSize: 15, color: C.text2, breakLine: true } }, { text: '175 products for homeowners: mixers, LED mirrors, WCs, basins, vanities, showers and pumps.', options: { color: C.accent5 } }], { x: 7.75, y: 5.2, w: 4.75, h: 1.4, fontSize: 12 })
-  s.addNotes('Source: twainyplast.com About page. Twainy Plast represents 5+ authorised brand agencies.')
+  text(s, 'TWO BUSINESSES UNDER ONE ROOF', { x: 0.6, y: 3.3, w: 8, h: 0.3, fontSize: 11, bold: true, charSpacing: 2, color: C.accent5 })
+  const businesses = [
+    {
+      x: 0.6, tag: 'B2B · PROFESSIONALS', tagColor: C.accent1, icon: fa.FaTools, iconFill: C.text2, title: 'Plumbing systems',
+      body: 'PPR, PVC, PVC-U and HDPE pipes and fittings for plumbers and contractors.',
+      photos: ['brands/haykal-pvc.jpg', 'brands/miatherm-ppr.jpg', 'brands/plimat-fittings.jpg', 'brands/senkron-hdpe.jpg'],
+      chips: ['Haykal Plast', 'MiaTherm', 'PLIMAT', 'Şenkron'],
+    },
+    {
+      x: 6.75, tag: 'B2C · HOMEOWNERS', tagColor: C.accent2, icon: fa.FaBath, iconFill: C.accent2, title: 'Bathroom sanitary ware',
+      body: 'Mixers, LED mirrors, WCs, basins, vanities, showers and pumps for homeowners.',
+      photos: ['products/mixer.jpg', 'products/mirror.jpg', 'products/basin.jpg', 'products/wc.jpg'],
+      chips: ['175 products', 'twainyplast.com', 'Cash on delivery'],
+    },
+  ]
+  for (const b of businesses) {
+    card(s, b.x, 3.7, 5.95, 3.05)
+    b.photos.forEach((ph, j) => {
+      const px = b.x + 0.22 + j * 1.39
+      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: px, y: 3.9, w: 1.29, h: 1.29, rectRadius: 0.08, fill: { color: 'F4F7F5' }, line: { color: HEX.grid, width: 0.5 } })
+      s.addImage({ path: A(ph), x: px + 0.06, y: 3.96, w: 1.17, h: 1.17, sizing: { type: 'contain', w: 1.17, h: 1.17 }, altText: b.title + ' product' })
+    })
+    await badge(s, b.icon, b.x + 0.22, 5.38, 0.5, b.iconFill)
+    text(s, b.tag, { x: b.x + 0.85, y: 5.36, w: 3.5, h: 0.24, fontSize: 9, bold: true, charSpacing: 1, color: b.tagColor })
+    text(s, b.title, { x: b.x + 0.85, y: 5.58, w: 4.9, h: 0.38, fontSize: 17, bold: true, color: C.text2 })
+    text(s, b.body, { x: b.x + 0.22, y: 6.0, w: 5.5, h: 0.32, fontSize: 11, color: C.accent5 })
+    let cx = b.x + 0.22
+    for (const c of b.chips) {
+      const w = 0.16 + c.length * 0.075
+      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: cx, y: 6.37, w, h: 0.26, rectRadius: 0.13, fill: { color: C.background2 }, line: { color: C.background2, width: 0 } })
+      text(s, c, { x: cx, y: 6.37, w, h: 0.26, fontSize: 9, bold: true, color: C.text2, align: 'center', valign: 'middle' })
+      cx += w + 0.08
+    }
+  }
+  // the gap, stated right on the cards
+  text(s, '● Active on social media', { x: 4.0, y: 5.4, w: 2.4, h: 0.24, fontSize: 9, bold: true, color: C.accent1, align: 'right' })
+  text(s, '● 0 social presence before', { x: 10.1, y: 5.4, w: 2.45, h: 0.24, fontSize: 9, bold: true, color: C.accent2, align: 'right' })
+  s.addNotes('Source: twainyplast.com About page. Plumbing products shown are from the four brand agencies; bathroom products are from the Shopify catalogue (illustrative product images).')
 
   // ================= 4. OUR FOUR BRANDS =================
   s = slide('DASHBOARD', 'Introduction', 'OUR BRAND AGENCIES', 'Four authorised brands, already promoted on social media')
@@ -266,7 +303,7 @@ function slide(master, section, kicker, title) {
   text(s, 'Launched mid-October 2026. The social media strategy that follows drives traffic to this store.', { x: 0.6, y: 6.45, w: 12, h: 0.35, fontSize: 12, italic: true, color: C.accent5 })
 
   // ================= 7. LAUNCH BASELINE =================
-  pres.addSection({ title: 'Diagnose & research' })
+  addSection({ title: 'Diagnose & research' })
   s = slide('DASHBOARD', 'Diagnose & research', 'STEP 1 · LAUNCH BASELINE', `The first two weeks online (${S.baselinePeriod}): visitors, but no buyers`)
   kpi(s, 0.6, 1.55, 2.9, 1.5, 'Sessions', String(B.sessions), { note: `${B.days} days after launch` })
   kpi(s, 0.6, 3.2, 2.9, 1.5, 'Orders', '0', { fill: C.accent2 })
@@ -344,7 +381,7 @@ function slide(master, section, kicker, title) {
   ], { x: 9.25, y: 2.25, w: 3.25, h: 4.3, fontSize: 12, paraSpaceAfter: 2 })
 
   // ================= 11. BRAND IDENTITY =================
-  pres.addSection({ title: 'Strategy & creative' })
+  addSection({ title: 'Strategy & creative' })
   s = slide('CONTENT', 'Strategy & creative', 'STEP 3 · BRAND IDENTITY MATRIX', 'One promise: Choose with Confidence · اختار بثقة')
   const pal = [['Twainy Green', HEX.green], ['Leaf Green', HEX.leaf], ['Mist', HEX.mist], ['Chrome', HEX.chrome], ['Twainy Red', HEX.red]]
   pal.forEach(([nm, hx], i) => {
@@ -439,7 +476,7 @@ function slide(master, section, kicker, title) {
   }
 
   // ================= 16. KPI FRAMEWORK & TRACKING =================
-  pres.addSection({ title: 'Results' })
+  addSection({ title: 'Results' })
   s = slide('CONTENT', 'Results', 'STEP 5 · KPI FRAMEWORK & ANALYTICS', 'What we measured, how, and with which tool')
   s.addTable([
     hdr(['KPI', 'Formula', 'Tool']),
@@ -510,7 +547,7 @@ function slide(master, section, kicker, title) {
   text(s, 'Targets were 4-week test targets set before launch. The website converts below target: that is the next thing to fix.', { x: 9.4, y: 4.85, w: 3.1, h: 1.8, fontSize: 12, valign: 'middle' })
 
   // ================= 20. LEARNINGS & NEXT 90 DAYS =================
-  pres.addSection({ title: 'Recommendations' })
+  addSection({ title: 'Recommendations' })
   s = slide('CONTENT', 'Recommendations', 'LEARNINGS & RECOMMENDATIONS', 'What we learned, and the next 90 days')
   const lrn = [
     [fa.FaComments, 'Video → WhatsApp → sale', `${pct(waShare, 0)} of orders closed on WhatsApp`],
@@ -541,7 +578,7 @@ function slide(master, section, kicker, title) {
   })
 
   // ================= 21. CLOSE =================
-  s = pres.addSlide({ masterName: 'BLANK_DARK', sectionTitle: 'Recommendations' })
+  s = deckFor('close').addSlide(ONLY ? { masterName: 'BLANK_DARK' } : { masterName: 'BLANK_DARK', sectionTitle: 'Recommendations' })
   card(s, 0.7, 0.7, 1.55, 1.1, C.background1, false)
   await fit(s, A('logo.png'), 0.8, 0.76, 1.35, 0.98, { alt: 'Twainy Plast logo' })
   text(s, 'Thank you', { x: 0.7, y: 2.6, w: 6, h: 1.1, fontSize: 50, bold: true, color: C.background1 })

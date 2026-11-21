@@ -9,7 +9,7 @@
 mkdir -p /tmp/deckdeps && (cd /tmp/deckdeps && npm i pptxgenjs@3.12.0 sharp@0.33 react@18 react-dom@18 react-icons@5)
 NODE_PATH=/tmp/deckdeps/node_modules DECK_DEPS=/tmp/deckdeps node deck/build-final.cjs
 ```
-Add `APPLY_THEME=<path to the pptx skill's apply_theme.js>` to write the green/red theme colours into the file's theme.
+Set `ONLY=<slide id>` (e.g. `ONLY=title`, `ONLY=client`, `ONLY=brands`) with `build-pro.cjs` to export a single slide for pasting into an edited copy. Add `APPLY_THEME=<path to the pptx skill's apply_theme.js>` to write the green/red theme colours into the file's theme.
 
 ## Professional presentation (current)
 - `Twainy-Plast-Presentation.pptx`: 21-slide presentation built by `build-pro.cjs` (same data file, same rebuild command with `build-pro.cjs`).
