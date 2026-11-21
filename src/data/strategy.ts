@@ -214,23 +214,23 @@ export const whatsapp = {
   greeting: 'أهلا فيك بتويني بلاست 👋 قلّنا شو عم تدوّر عليه (أو ابعتلنا صورة)، ومنردّ عليك بأسرع وقت. Hello! Tell us what you need, or send a photo.',
   away: 'هلق نحنا مسكّرين. منردّ عليك الصبح من الساعة ٨. فيك تطلب أونلاين: twainyplast.com',
   quickReplies: [
-    { cmd: '/delivery', text: 'التوصيل لـ[المناطق] خلال [١–٣] أيام، كلفته $[x]. Delivery to [areas] in [1–3] days, $[x].' },
+    { cmd: '/delivery', text: 'منوصّل لكل لبنان: مجاناً فوق $30، و$3 للطلبات الأصغر. Delivery all over Lebanon: free over $30, $3 below.' },
     { cmd: '/payment', text: 'الدفع كاش عند الاستلام أو [Whish / بطاقة]. Cash on delivery or [Whish / card].' },
     { cmd: '/size', text: 'ابعتلنا صورة للمغسلة وقياس الفتحة، ومنقلّك شو بيركب. Send a photo and the hole size and we’ll tell you what fits.' },
   ],
 }
 
 export const igProfile = {
-  handle: 'twainyplast',
+  handle: 'twainy_plast_',
   name: 'Twainy Plast | تويني بلاست',
   category: 'Home improvement',
   bio: [
     'أدوات صحية • خلاطات • مرايا LED 🇱🇧',
     'Sanitary ware, mixers & LED mirrors',
-    '🚚 Delivery to [areas] · 💬 Ask before you order',
+    '🚚 Delivery all over Lebanon · 💬 Ask before you order',
     '⬇️ Shop & WhatsApp',
   ],
-  location: '[Store address, Lebanon]',
+  location: 'Qsarnaba, Lebanon',
   highlights: ['Mixers', 'Mirrors', 'How to order', 'Delivery', 'Reviews', 'Our store'],
   links: [
     { label: '🛒 Choose with Confidence picks', dest: '/collections/choose-with-confidence' },
